@@ -26,11 +26,9 @@ public class Board {
 
     public void createStones(int size){
         int stoneCount = (size/2) - 1;//3
-        System.out.println(stoneCount);
         
         for(int i = 0; i < stoneCount; i++){
             for(int j = 0; j < stoneCount; j++){
-                System.out.println(i + " " + j);
                 board[i][j] = 'B';
             }
         }
