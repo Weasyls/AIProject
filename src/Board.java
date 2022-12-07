@@ -10,22 +10,17 @@
 public class Board {
 
     private char[][] board;
-    private int size;
-    
+    private int size = 8;
+    int stoneCount = 18;
     public Board(int size) throws Exception {
+        this.size = size;
         createBoard(size);
         clearBoard();
         createStones(size);
     }
-    
-    public Board() throws Exception {
-        createBoard(8);
-        clearBoard();
-        createStones(8);
-    }
 
     public void createStones(int size){
-        int stoneCount = (size/2) - 1;//3
+        this.stoneCount = (size/2) - 1;//3
         
         for(int i = 0; i < stoneCount; i++){
             for(int j = 0; j < stoneCount; j++){
@@ -47,7 +42,6 @@ public class Board {
 
     public void createBoard(int size) throws Exception {
         if (sizeValidity(size)) {
-            this.size = size;
             this.board = new char[size][size];
             
 

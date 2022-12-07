@@ -23,7 +23,7 @@ public class Test {
         System.out.print("Enter Board Size: ");
         int board_size = sc.nextInt();
         
-        Board board = new Board(board_size);
+        State board = new State(board_size);
         board.printBoard();
         
     }
