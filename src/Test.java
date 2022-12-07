@@ -24,9 +24,6 @@ public class Test {
         int board_size = sc.nextInt();
         
         Board board = new Board(board_size);
-        
-        board.createBoard(board_size);
-        board.clearBoard();
         board.printBoard();
         
     }

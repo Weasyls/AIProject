@@ -9,12 +9,10 @@
  */
 public class State {
     
-    enum Player{P1, P2, AI};
+    enum Player{Red, Blue};
     
     
     public boolean gameOverState(){
-        
-        
         
         return false;
     }
