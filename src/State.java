@@ -15,7 +15,7 @@ public class State {
 
     enum Player{Red, Blue};
     List<State> childList = new ArrayList<>();
-    
+    int moves;
     Board board;
     
     public State(int size) throws Exception{//Birden fazla parametre alan state constructoru o anki boardı oluşturmak için
@@ -27,5 +27,14 @@ public class State {
     public boolean gameOverState(){
         
         return false;
+    }
+    
+    public void move(State st){
+        Player p = Player.Red;
+        switch(moves){
+            case 1: break;
+            case 2: break;
+            default: break;
+        }
     }
 }
