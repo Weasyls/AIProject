@@ -16,7 +16,7 @@ public class Test {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         // TODO code application logic here
         
         Scanner sc = new Scanner(System.in);
@@ -25,7 +25,39 @@ public class Test {
         
         State board = new State(board_size);
         board.printBoard();
-        
+        System.out.println(board.winCondition());
+
+        /* WINSTATE TESTLERI SİLMEYİN
+        System.out.println(board.winsState());
+        for(int i = 0; i < (board.boardSize/2) - 1;i++){
+            for(int j = 0;j < (board.boardSize/2) - 1;j++){
+                board.boardState[i][j] = " R";
+            }
+        }
+        board.printBoard();
+        System.out.println(board.winsState());
+        board.boardState[0][2] = " B";
+        board.printBoard();
+        System.out.println(board.winsState());
+        for(int i = 7; 4 < i ;i--){
+            for(int j = 7;4 <j;j--){
+                board.boardState[i][j] = " B";
+            }
+        }
+        board.printBoard();
+        System.out.println(board.winsState());
+
+        board.boardState[7][7] = " R";
+        board.printBoard();
+        System.out.println(board.winsState());
+        */
+
+        /* ANA OYUN DÖNGÜSÜ OLACAK
+        * do{
+
+        }while(board.winsState() != "N");
+        System.out.println(board.winsState());
+        */
     }
     
 }
