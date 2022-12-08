@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -102,15 +103,84 @@ public class State {
             winner = "B";
         return winner;
     }
-
-    public void move(State st){
-        Player p = Player.Red;
-        Player T = Player.Blue;
-        switch(moves){
-            case 1: break;
-            case 2: break;
-            default: break;
+    public void swap(int a, int b, int i, int j) {
+        String temp = boardState[a][b];
+        boardState[a][b] = boardState[i][j];
+        boardState[i][j] = temp;
+    }
+    public void move(String direction, int stoneLocationX, int stoneLocationY, Player p){//Yönleri değiştir == B veya == R olanlar != - yapılacak p parametresini almasına gerek yok sanırım hızlı yazoldı incele
+        if(p == Player.Red){
+            switch(direction.toLowerCase()){
+            case "up" -> {
+                if(boardState[stoneLocationX][stoneLocationY+1] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+1);
+                }
+                else if((boardState[stoneLocationX-1][stoneLocationY] != " -")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+2);
+                }
+                }
+            case "left" -> {
+                if(boardState[stoneLocationX-1][stoneLocationY] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX-1, stoneLocationY);
+                }
+                else if((boardState[stoneLocationX-1][stoneLocationY] != " -")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX-2, stoneLocationY);
+                }
+                }
+            case "right" -> {
+                if(boardState[stoneLocationX+1][stoneLocationY] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX+1, stoneLocationY);
+                }
+                else if((boardState[stoneLocationX-1][stoneLocationY] != " -")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX+2, stoneLocationY);
+                }
+                }
+            }
         }
+        else if(p == Player.Blue){
+            switch(direction.toLowerCase()){
+            case "up" -> {
+                if(boardState[stoneLocationX][stoneLocationY+1] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+1);
+                }
+                else if((boardState[stoneLocationX][stoneLocationY+1] == " B" || boardState[stoneLocationX][stoneLocationY+1] == " R")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+2);
+                }
+                }
+            case "left" -> {
+                if(boardState[stoneLocationX-1][stoneLocationY] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX-1, stoneLocationY);
+                }
+                else if((boardState[stoneLocationX-1][stoneLocationY] == " B" || boardState[stoneLocationX+1][stoneLocationY] == " R")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX-2, stoneLocationY);
+                }
+                }
+            case "right" -> {
+                if(boardState[stoneLocationX+1][stoneLocationY] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX+1, stoneLocationY);
+                }
+                else if((boardState[stoneLocationX+1][stoneLocationY] == " B" || boardState[stoneLocationX+1][stoneLocationY] == " R")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX+2, stoneLocationY);
+                }
+                }
+            }
+        }
+        
+        
+    }
+    
+    public void play(State st){
+        Player p = Player.Red;
+        Scanner sc = new Scanner(System.in);
+        System.out.print("x: ");
+        int x = sc.nextInt();
+        System.out.print(" y: ");
+        int y = sc.nextInt();
+        System.out.print("Direction: ");
+        String direction = sc.next();
+        System.out.println("\n");
+            move(direction, x, y, p);
+
     }
     public boolean isInWinZone(int stoneX,int stoneY, Player turn){
         if(Player.Red == turn){
