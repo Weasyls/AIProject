@@ -27,6 +27,7 @@ public class Test {
         board.printBoard();
         System.out.println(board.winCondition());
 
+
         /* WINSTATE TESTLERI SİLMEYİN
         System.out.println(board.winsState());
         for(int i = 0; i < (board.boardSize/2) - 1;i++){

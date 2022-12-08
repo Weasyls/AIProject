@@ -1,6 +1,8 @@
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -17,6 +19,7 @@ public class State {
     String[][] boardState; //GEÇİCİ OLARAK PRİVATE KALDIRDIM MAİNDE MOVE KULLANMADNA DEĞİŞTİRİP DEBUG İÇİN
     List<State> childList = new ArrayList<>();
     String winner = "N";
+    Player turn;
     int boardSize, stoneCount = 18;
     int moves;
     
@@ -99,7 +102,7 @@ public class State {
             winner = "B";
         return winner;
     }
-    
+
     public void move(State st){
         Player p = Player.Red;
         Player T = Player.Blue;
@@ -108,6 +111,37 @@ public class State {
             case 2: break;
             default: break;
         }
+    }
+    public boolean isInWinZone(int stoneX,int stoneY, Player turn){
+        if(Player.Red == turn){
+            if((stoneX < (boardSize/2) -1 && stoneX > 0) && (stoneY < (boardSize/2)-1 && stoneY > 0)){
+                return true;
+            }
+        }
+        if(Player.Blue == turn){
+            if((stoneX < boardSize - 1 && stoneX > (boardSize/2)) && (stoneY < boardSize - 1 && stoneY > (boardSize/2))){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void isMoveable(int stoneX,int stoneY, String direction){           //  1       up
+        if(isInWinZone(stoneX,stoneY,turn)){
+
+        }
+        switch(direction.toLowerCase()){
+            case "up":
+
+                break;
+            case "down":
+                break;
+            case "left":
+                break;
+            case "right":
+                break;
+        }                                                                    //2   3 left right
+                                                                            //  4      down
+
     }
     public void printBoard(){
         try {
