@@ -181,7 +181,7 @@ public class State {
                 if(boardState[stoneLocationX+1][stoneLocationY] == " -"){
                     swap(stoneLocationX, stoneLocationY, stoneLocationX+1, stoneLocationY);
                 }
-                else if((boardState[stoneLocationX+1][stoneLocationY] == " B" || boardState[stoneLocationX+1][stoneLocationY] == " R")){
+                else if((boardState[stoneLocationX+1][stoneLocationY] != " -")){
                     swap(stoneLocationX, stoneLocationY, stoneLocationX+2, stoneLocationY);
                 }
                 }
