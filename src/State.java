@@ -103,59 +103,81 @@ public class State {
             winner = "B";
         return winner;
     }
-    public void swap(int a, int b, int i, int j) {
+    public void swap(int a, int b, int i, int j) {//0 1 2 3 4
+                                                  //1
+                                                  //2
+                                                  //3
         String temp = boardState[a][b];
         boardState[a][b] = boardState[i][j];
         boardState[i][j] = temp;
     }
-    public void move(String direction, int stoneLocationX, int stoneLocationY, Player p){//Yönleri değiştir == B veya == R olanlar != - yapılacak p parametresini almasına gerek yok sanırım hızlı yazoldı incele
+    public void move(String direction, int stoneLocationX, int stoneLocationY, Player p){
         if(p == Player.Red){
             switch(direction.toLowerCase()){
             case "up" -> {
-                if(boardState[stoneLocationX][stoneLocationY+1] == " -"){
-                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+1);
+                if(" -".equals(boardState[stoneLocationX-1][stoneLocationY])){
+                    swap(stoneLocationX-1, stoneLocationY, stoneLocationX, stoneLocationY);
                 }
                 else if((boardState[stoneLocationX-1][stoneLocationY] != " -")){
-                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+2);
+                    swap(stoneLocationX-2, stoneLocationY, stoneLocationX, stoneLocationY);
+                }
+                else{
+                    break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                 }
                 }
             case "left" -> {
-                if(boardState[stoneLocationX-1][stoneLocationY] == " -"){
-                    swap(stoneLocationX, stoneLocationY, stoneLocationX-1, stoneLocationY);
+                if(boardState[stoneLocationX][stoneLocationY-1] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY-1);
                 }
-                else if((boardState[stoneLocationX-1][stoneLocationY] != " -")){
-                    swap(stoneLocationX, stoneLocationY, stoneLocationX-2, stoneLocationY);
+                else if((boardState[stoneLocationX][stoneLocationY-1] != " -")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY-2);
+                }
+                else{
+                    break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                 }
                 }
             case "right" -> {
-                if(boardState[stoneLocationX+1][stoneLocationY] == " -"){
-                    swap(stoneLocationX, stoneLocationY, stoneLocationX+1, stoneLocationY);
+                if(boardState[stoneLocationX][stoneLocationY+1] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+1);
                 }
-                else if((boardState[stoneLocationX-1][stoneLocationY] != " -")){
-                    swap(stoneLocationX, stoneLocationY, stoneLocationX+2, stoneLocationY);
+                else if((boardState[stoneLocationX][stoneLocationY+1] != " -")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+2);
+                }
+                else{
+                    break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                 }
                 }
+            default -> {
+                System.out.println("There's no input like that.");
+                break;
             }
+        }
         }
         else if(p == Player.Blue){
             switch(direction.toLowerCase()){
-            case "up" -> {
+                        case "right" -> {
                 if(boardState[stoneLocationX][stoneLocationY+1] == " -"){
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+1);
                 }
-                else if((boardState[stoneLocationX][stoneLocationY+1] == " B" || boardState[stoneLocationX][stoneLocationY+1] == " R")){
+                else if((boardState[stoneLocationX][stoneLocationY+1] != " -")){
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+2);
+                }
+                else{
+                    break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                 }
                 }
             case "left" -> {
-                if(boardState[stoneLocationX-1][stoneLocationY] == " -"){
-                    swap(stoneLocationX, stoneLocationY, stoneLocationX-1, stoneLocationY);
+                if(boardState[stoneLocationX][stoneLocationY-1] == " -"){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY-1);
                 }
-                else if((boardState[stoneLocationX-1][stoneLocationY] == " B" || boardState[stoneLocationX+1][stoneLocationY] == " R")){
-                    swap(stoneLocationX, stoneLocationY, stoneLocationX-2, stoneLocationY);
+                else if((boardState[stoneLocationX][stoneLocationY-1] != " -")){
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY-2);
+                }
+                else{
+                    break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                 }
                 }
-            case "right" -> {
+            case "down" -> {
                 if(boardState[stoneLocationX+1][stoneLocationY] == " -"){
                     swap(stoneLocationX, stoneLocationY, stoneLocationX+1, stoneLocationY);
                 }
@@ -163,9 +185,13 @@ public class State {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX+2, stoneLocationY);
                 }
                 }
+            default -> {
+                System.out.println("There's no input like that.");
+                break;
             }
+            }
+            
         }
-        
         
     }
     
@@ -179,7 +205,7 @@ public class State {
         System.out.print("Direction: ");
         String direction = sc.next();
         System.out.println("\n");
-            move(direction, x, y, p);
+        move(direction, y, x, p);
 
     }
     public boolean isInWinZone(int stoneX,int stoneY, Player turn){

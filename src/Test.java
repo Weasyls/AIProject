@@ -26,10 +26,13 @@ public class Test {
         State board = new State(board_size);
         board.printBoard();
         System.out.println(board.winCondition());
-
-        board.play(board);
+        while(true){
+            
+            board.play(board);
+            board.printBoard();
+        }
         
-        board.printBoard();
+        
         
         
         
