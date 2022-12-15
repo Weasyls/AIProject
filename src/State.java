@@ -32,7 +32,6 @@ public class State {
         this.boardState = st.boardState;
         this.winner = st.winner;
         this.boardSize = st.boardSize;
-        this.stoneCount = st.stoneCount;
     }
     public void resetBoard(){  //CLEAR BOARDDAN İNİTİALA ÇEVİRDİM TAŞLARI DA BURDA KOYUYOR
         try {

@@ -29,10 +29,7 @@ public class Test {
         do{
 
         }
-        while(true){
-
-
-        }
+        while(false);        }
         
 
         
