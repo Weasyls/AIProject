@@ -26,7 +26,7 @@ public class Test {
         State board = new State(board_size);
         board.printBoard();
         System.out.println(board.winCondition());
-        do{
+        do{     
             board.play(board);
             board.printBoard();
         }

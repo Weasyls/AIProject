@@ -19,11 +19,9 @@ public class State {
         Red, Blue
     }
     String[][] boardState; //GEÇİCİ OLARAK PRİVATE KALDIRDIM MAİNDE MOVE KULLANMADNA DEĞİŞTİRİP DEBUG İÇİN
-    List<State> childList = new ArrayList<>();
     String winner = "N";
     Player turn = Player.Blue;
     int boardSize;
-    int moves;
 
     public State(int size) {//Birden fazla parametre alan state constructoru o anki boardı oluşturmak için
         createBoard(size);
@@ -37,16 +35,14 @@ public class State {
     }
 
     public void resetBoard() {  //CLEAR BOARDDAN İNİTİALA ÇEVİRDİM TAŞLARI DA BURDA KOYUYOR
-        try {
-            for (int i = 0; i < boardSize; i++) {
-                for (int j = 0; j < boardSize; j++) {
-                    boardState[i][j] = " -";
-                }
+        
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                boardState[i][j] = " -";
             }
-            createStones(boardSize);
-        } catch (Exception e) {
-            System.out.println(e);
         }
+        createStones(boardSize);
+
     }
 
     public void createStones(int size) { // DEĞİŞMEDİ
@@ -67,13 +63,16 @@ public class State {
             }
         } else {
             int stoneCount = (size - 1) / 2;
-            for (int i = 0; i < stoneCount; i++) {
-                for (int j = 0; j < --stoneCount; j++) {
+            int s2 = stoneCount-1;
+            for (int i = 0; i <= stoneCount; i++,s2--) {
+                for (int j = 0; j <= s2; j++) {
                     boardState[i][j] = " B";
                 }
             }
-            for (int i = size - 1; i >= size - stoneCount; i--) {
-                for (int j = 0; j >= size - (--stoneCount); j--) {
+            stoneCount = (size - 1) / 2;
+            s2 = stoneCount;
+            for (int i = size-1; i > stoneCount;i--,s2++) {
+                for (int j = size-1; j > s2; j--) {
                     boardState[i][j] = " R";
                 }
             }
@@ -82,7 +81,7 @@ public class State {
     }
 
     public void sizeValidity(int size) { // SIZE KURALLARA UYMUYORSA DEFAULT OLARAK 8 YAPIYOR UYUYORSA PARAMETREYI KULLANIYOR
-        if (size < 5) {
+        if (size < 4) {
             this.boardSize = 8;
         } else {
             this.boardSize = size;
@@ -131,6 +130,8 @@ public class State {
         String temp = boardState[a][b];           //1
         boardState[a][b] = boardState[i][j];      //2
         boardState[i][j] = temp;                  //3
+        System.out.println("swapten gelen");
+        printBoard();
     }
 
     public void move(String direction, int stoneLocationX, int stoneLocationY, Player p) {
@@ -173,6 +174,7 @@ public class State {
                 case "right" -> {
                     if (boardState[stoneLocationX][stoneLocationY + 1] == " -") {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 1);
+                        printBoard();
                     } else if ((boardState[stoneLocationX][stoneLocationY + 1] != " -")) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 2);
                     } else {
@@ -223,13 +225,14 @@ public class State {
                     System.out.print("y: ");
                     y = sc.nextInt();
                 }
-            } while (!boardState[x][y].equals(" B"));
+                System.out.println(boardState[x][y]);
+            } while (boardState[x][y].equals(" R") || boardState[x][y].equals(" -"));
 
-            System.out.print("Direction: ");
+            System.out.print("Direction: ");//while 
             String direction = sc.next();
             System.out.println("\n");
             move(direction, y, x, turn);
-            turn = Player.Red;
+            turn = Player.Blue;//EMREMRMEMREMMREMRMEMRMEMRMEMRMEEEEEEEEEEMEMEMMEMElayer.Blue;//EMREMRMEMREMMREMRMEMRMEMRMEMRMEEEEEEEEEEMEMEMMEMElayer.Blue;//EMREMRMEMREMMREMRMEMRMEMRMEMRMEEEEEEEEEEMEMEMMEME
         } else {
             System.out.println(turn + "'s turn.");
             x = -1;
@@ -303,12 +306,12 @@ public class State {
         try {
             System.out.println("-------------------------------------------");
             System.out.print("  X");
-            for(int i = 0; i < boardSize;i++){
-                System.out.print(i+" ");
+            for (int i = 0; i < boardSize; i++) {
+                System.out.print(i + " ");
             }
             System.out.println("");
             for (int i = 0; i < boardSize; i++) {
-                    System.out.print("Y"+i);
+                System.out.print("Y" + i);
                 for (int j = 0; j < boardSize; j++) {
                     System.out.print(boardState[i][j] + "");
                 }
@@ -321,3 +324,4 @@ public class State {
 
     }
 }
+//TURN BİTİŞi EKLENCEK
