@@ -1,4 +1,5 @@
 
+import java.lang.reflect.Array;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class State {
     }
 
     public void resetBoard() {  //CLEAR BOARDDAN İNİTİALA ÇEVİRDİM TAŞLARI DA BURDA KOYUYOR
-        
+
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 boardState[i][j] = " -";
@@ -63,16 +64,16 @@ public class State {
             }
         } else {
             int stoneCount = (size - 1) / 2;
-            int s2 = stoneCount-1;
-            for (int i = 0; i <= stoneCount; i++,s2--) {
+            int s2 = stoneCount - 1;
+            for (int i = 0; i <= stoneCount; i++, s2--) {
                 for (int j = 0; j <= s2; j++) {
                     boardState[i][j] = " B";
                 }
             }
             stoneCount = (size - 1) / 2;
             s2 = stoneCount;
-            for (int i = size-1; i > stoneCount;i--,s2++) {
-                for (int j = size-1; j > s2; j--) {
+            for (int i = size - 1; i > stoneCount; i--, s2++) {
+                for (int j = size - 1; j > s2; j--) {
                     boardState[i][j] = " R";
                 }
             }
@@ -132,104 +133,110 @@ public class State {
         boardState[i][j] = temp;                  //3
     }
 
-        public int move(String direction, int stoneLocationX, int stoneLocationY, Player p) {//Aslında stroneLocationX y ve stoneLocationY de x
+    public int[] move(String direction, int stoneLocationX, int stoneLocationY, Player p) {//Aslında stroneLocationX y ve stoneLocationY de x
 
         if (p == Player.Red) {
             switch (direction.toLowerCase()) {
                 case "up" -> {
-                    if (" -".equals(boardState[stoneLocationX][stoneLocationY-1])) {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY-1);
-                        return 0;
+                    if (" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 1);
+                        return new int[]{0};
 
-                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY-1])) && boardState[stoneLocationX][stoneLocationY-2] == " -") {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY-2);
-                        return 1;
+                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 2);
+                        return new int[]{1, stoneLocationX, stoneLocationY - 2};
                     } else {
-                            System.out.println("Move invalid");
-                            return -1;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        System.out.println("Move invalid");
+                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
 
                     }
                 }
                 case "left" -> {
-                    if (" -".equals(boardState[stoneLocationX-1][stoneLocationY])) {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX-1, stoneLocationY);
-                        return 0;
-                    } else if ((!" -".equals(boardState[stoneLocationX-1][stoneLocationY])) && boardState[stoneLocationX-2][stoneLocationY] == " -") {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX-2, stoneLocationY);
-                        return 1;
+                    if (" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX - 1, stoneLocationY);
+                        return new int[]{0};
+                    } else if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX - 2, stoneLocationY);
+                        return new int[]{1, stoneLocationX - 2, stoneLocationY};
                     } else {
-                            System.out.println("Move invalid");
-                            return -1;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        System.out.println("Move invalid");
+                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                     }
                 }
                 case "right" -> {
-                    if (" -".equals(boardState[stoneLocationX+1][stoneLocationY])) {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX+1, stoneLocationY);
-                        return 0;
-                    } else if ((!" -".equals(boardState[stoneLocationX+1][stoneLocationY])) && boardState[stoneLocationX+2][stoneLocationY] == " -") {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX+2, stoneLocationY);
-                        return 1;
+                    if (" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX + 1, stoneLocationY);
+                        return new int[]{0};
+                    } else if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -") {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX + 2, stoneLocationY);
+                        return new int[]{1, stoneLocationX + 2, stoneLocationY};
                     } else {
-                            System.out.println("Move invalid");
-                            return -1;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        System.out.println("Move invalid");
+                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                     }
+                }
+                case "quit" -> {
+                    return new int[]{0};
                 }
                 default -> {
                     System.out.println("There's no input like that.");
-                    return -1;
+                    return new int[]{-1};
                 }
             }
         } else if (p == Player.Blue) {
             switch (direction.toLowerCase()) {
                 case "right" -> {
-                    if (" -".equals(boardState[stoneLocationX+1][stoneLocationY])){
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX+1, stoneLocationY);
-                        return 0;
-                    } else if ((!" -".equals(boardState[stoneLocationX+1][stoneLocationY])) && boardState[stoneLocationX+2][stoneLocationY] == " -") {//ZIPLA
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX+2, stoneLocationY);
-                        return 1;
+                    if (" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX + 1, stoneLocationY);
+                        return new int[]{0};
+                    } else if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -") {//ZIPLA
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX + 2, stoneLocationY);
+                        return new int[]{1, stoneLocationX + 2, stoneLocationY};
                     } else {
-                            System.out.println("Move invalid");
-                            return -1;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        System.out.println("Move invalid");
+                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                     }
                 }
                 case "left" -> {
-                    if (" -".equals(boardState[stoneLocationX-1][stoneLocationY])) {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX-1, stoneLocationY);
-                        return 0;
-                    } else if ((!" -".equals(boardState[stoneLocationX-1][stoneLocationY])) && boardState[stoneLocationX-2][stoneLocationY] == " -") {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX-2, stoneLocationY);
-                        return 1;
+                    if (" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX - 1, stoneLocationY);
+                        return new int[]{0};
+                    } else if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX - 2, stoneLocationY);
+                        return new int[]{1, stoneLocationX - 2, stoneLocationY};
                     } else {
-                            System.out.println("Move invalid");
-                            return -1;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        System.out.println("Move invalid");
+                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                     }
 
                 }
                 case "down" -> {
-                    if (" -".equals(boardState[stoneLocationX][stoneLocationY+1])) {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+1);
-                        return 0;
-                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY+1])) && boardState[stoneLocationX][stoneLocationY+2] == " -") {
-                        swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY+2);
-                        return 1;
+                    if (" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 1);
+                        return new int[]{0};
+                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -") {
+                        swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 2);
+                        return new int[]{1, stoneLocationX, stoneLocationY + 2};
                     } else {
-                            System.out.println("Move invalid");
-                            return -1;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        System.out.println("Move invalid");
+                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
                     }
+                }
+                case "quit" -> {
+                    return new int[]{0};
                 }
                 default -> {
                     System.out.println("There's no input like that.");
-                    return -1;
+                    return new int[]{-1};
                 }
             }
 
         }
-        return -1;
+        return new int[]{-1};
 
     }
 
-        public void play() {
+    public void play() {
         Scanner sc = new Scanner(System.in);
 
         int x = -1;
@@ -240,14 +247,14 @@ public class State {
             System.out.println(turn + "'s turn.");
 
             do {
-                
+
                 while (y < 0 || y >= boardSize || x < 0 || x >= boardSize) {
 
                     System.out.print("x: ");
                     x = sc.nextInt();
                     System.out.print("y: ");
                     y = sc.nextInt();
-                                System.out.println(boardState[x][y]);
+                    System.out.println(boardState[x][y]);
                     do {
                         System.out.print("Direction: ");//while 
                         direction = sc.next();
@@ -258,51 +265,30 @@ public class State {
 
             System.out.println("\n");
 
-            int check = move(direction, x, y, turn);
+            int[] check = move(direction, x, y, turn);
+            //1 zıplayarak olan 0 kayan -1 unable to move
 
-            /*System.out.println(check);
+            if (check[0] == 1) {
+                x = check[1];
+                y = check[2];
+                do {
+                    System.out.print("Direction: (Input quit to quit)");//while 
+                    direction = sc.next();
+                } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right" || direction == "quit"));
 
-            if (check == 1) {
-                while (check == 1) {
+                check = move(direction, x, y, turn);
 
-                    String val;
-                    System.out.println("Do you want to continue? N/Y");
-                    val = sc.next();
-
-                    if (val == "Y") {
-                        do {
-                            x = -1;
-                            y = -1;
-
-                            while (y < 0 || y > boardSize || x < 0 || x > boardSize) {
-
-                                System.out.print("x: ");
-                                x = sc.nextInt();
-                                System.out.print("y: ");
-                                y = sc.nextInt();
-                                System.out.println(!(direction == "up" || direction == "down" || direction == "left" || direction == "right"));
-                                while ((direction == "up" || direction == "down" || direction == "left" || direction == "right")) {
-                                    System.out.print("Direction: "); 
-                                    
-                                    direction = sc.next();
-
-                                }
-
-                            }
-                        } while (!boardState[x][y].equals(" B"));
-
-                        System.out.println("\n");
-                        check = move(direction, y, x, turn);
-                    } else if (val == "N") {
-                        break;
-                    }
-                }
-*/
                 turn = Player.Blue;
-        } else {
+            } else if (check[0] == 0) {
+                turn = Player.Red;
+            } else {
+                turn = Player.Blue;
+            }
+        }
+        else {
             System.out.println(turn + "'s turn.");
 
-            do {
+             do {
 
                 while (y < 0 || y >= boardSize || x < 0 || x >= boardSize) {
 
@@ -310,7 +296,7 @@ public class State {
                     x = sc.nextInt();
                     System.out.print("y: ");
                     y = sc.nextInt();
-
+                    System.out.println(boardState[x][y]);
                     do {
                         System.out.print("Direction: ");//while 
                         direction = sc.next();
@@ -321,49 +307,24 @@ public class State {
 
             System.out.println("\n");
 
-            int check = move(direction, x, y, turn);
+            int[] check = move(direction, x, y, turn);
+            //1 zıplayarak olan 0 kayan -1 unable to move
 
-            System.out.println(check);
+            if (check[0] == 1) {
+                x = check[1];
+                y = check[2];
+                do {
+                    System.out.print("Direction: (Input quit to quit)");//while 
+                    direction = sc.next();
+                } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right" || direction == "quit"));
 
-            if (check == 1) {
-                while (check == 1) {
+                check = move(direction, x, y, turn);
 
-                    String val;
-                    System.out.println("Do you want to continue? N/Y");
-                    val = sc.next();
-
-                    if (val == "Y") {
-                        do {
-                            x = -1;
-                            y = -1;
-
-                            while (y < 0 || y > boardSize || x < 0 || x > boardSize) {
-
-                                System.out.print("x: ");
-                                x = sc.nextInt();
-                                System.out.print("y: ");
-                                y = sc.nextInt();
-                                System.out.println((direction == "up" || "down".equals(direction) || direction == "left" || direction == "right"));
-                                while ((direction == "up" || "down".equals(direction) || direction == "left" || direction == "right")) {
-                                    System.out.print("Direction: ");//while 
-                                    direction = sc.next();
-
-                                }
-
-                            }
-                        } while (!boardState[x][y].equals(" R"));
-
-                        System.out.println("\n");
-                        check = move(direction, y, x, turn);
-                    } else if (val == "N") {
-                        break;
-                    }
-                }
-                turn = Player.Blue;
-            } else if (check == -1) {
                 turn = Player.Red;
-            } else {
+            } else if (check[0] == 0) {
                 turn = Player.Blue;
+            } else {
+                turn = Player.Red;
             }
         }
     }
