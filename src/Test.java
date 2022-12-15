@@ -27,10 +27,11 @@ public class Test {
         board.printBoard();
         System.out.println(board.winCondition());
         do{
-
+            board.play(board);
+            board.printBoard();
         }
-        while(false);        
-        
+        while(board.winCondition() == "N");        
+        System.out.println(board.winCondition());
 
         
         /* WINSTATE TESTLERI SİLMEYİN
