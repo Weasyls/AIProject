@@ -36,8 +36,7 @@ public class Board {
         
     }
     
-    public boolean sizeValidity(int size) {
-        return !(size < 3 || size % 2 != 0);
+    public boolean sizeValidity(int size) {return !(size < 5);
     }
 
     public void createBoard(int size) throws Exception {

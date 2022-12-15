@@ -21,7 +21,7 @@ public class State {
     List<State> childList = new ArrayList<>();
     String winner = "N";
     Player turn;
-    int boardSize, stoneCount = 18;
+    int boardSize;
     int moves;
     
     public State(int size){//Birden fazla parametre alan state constructoru o anki boardı oluşturmak için
@@ -47,23 +47,39 @@ public class State {
         }
     }
     public void createStones(int size){ // DEĞİŞMEDİ
-        this.stoneCount = (size/2) - 1;//8-3 6-2 4-1  (N+1)*2 = boardSize
 
-        for(int i = 0; i < stoneCount; i++){
-            for(int j = 0; j < stoneCount; j++){
-                boardState[i][j] = " B";
+        if(size % 2 == 0){
+            int stoneCount = (size/2) - 1;//8-3 6-2 4-1  (N+1)*2 = boardSize
+
+            for(int i = 0; i < stoneCount; i++){
+                for(int j = 0; j < stoneCount; j++){
+                    boardState[i][j] = " B";
+                }
+            }
+
+            for(int i = size-1; i >= size-stoneCount; i--) {
+                for (int j = size - 1; j >= size - stoneCount; j--) {
+                    boardState[i][j] = " R";
+                }
             }
         }
-
-        for(int i = size-1; i >= size-stoneCount; i--){
-            for(int j = size-1; j >= size-stoneCount; j--){
-                boardState[i][j] = " R";
+        else{
+            int stoneCount = (size - 1)/2;
+            for(int i = 0;i < stoneCount;i++){
+                for(int j = 0; j < --stoneCount;j++){
+                    boardState[i][j] = " B";
+                }
+            }
+            for(int i = size-1;i >= size-stoneCount;i--){
+                for(int j = 0; j >= size-(--stoneCount);j--){
+                    boardState[i][j] = " R";
+                }
             }
         }
 
     }
     public void sizeValidity(int size) { // SIZE KURALLARA UYMUYORSA DEFAULT OLARAK 8 YAPIYOR UYUYORSA PARAMETREYI KULLANIYOR
-        if(size < 3 || size % 2 != 0){
+        if(size < 5){
             this.boardSize = 8;
         }
         else
@@ -104,12 +120,9 @@ public class State {
         return winner;
     }
     public void swap(int a, int b, int i, int j) {//0 1 2 3 4
-                                                  //1
-                                                  //2
-                                                  //3
-        String temp = boardState[a][b];
-        boardState[a][b] = boardState[i][j];
-        boardState[i][j] = temp;
+        String temp = boardState[a][b];           //1
+        boardState[a][b] = boardState[i][j];      //2
+        boardState[i][j] = temp;                  //3
     }
     public void move(String direction, int stoneLocationX, int stoneLocationY, Player p){
         if(p == Player.Red){

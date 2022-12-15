@@ -26,17 +26,15 @@ public class Test {
         State board = new State(board_size);
         board.printBoard();
         System.out.println(board.winCondition());
+        do{
+
+        }
         while(true){
-            
-            board.play(board);
-            board.printBoard();
+
+
         }
         
-        
-        
-        
-        
-        
+
         
         /* WINSTATE TESTLERI SİLMEYİN
         System.out.println(board.winsState());
