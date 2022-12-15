@@ -27,7 +27,7 @@ public class Test {
         board.printBoard();
         System.out.println(board.winCondition());
         do{     
-            board.play(board);
+            board.play();
             board.printBoard();
         }
         while(board.winCondition() == "N");        
