@@ -142,7 +142,7 @@ public class State {
                     } else if ((boardState[stoneLocationX - 1][stoneLocationY] != " -")) {
                         swap(stoneLocationX - 2, stoneLocationY, stoneLocationX, stoneLocationY);
                     } else {
-                        break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM ... HALETTİM EMRAN 
                     }
                 }
                 case "left" -> {
@@ -151,7 +151,7 @@ public class State {
                     } else if ((boardState[stoneLocationX][stoneLocationY - 1] != " -")) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 2);
                     } else {
-                        break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        break;//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM  ... halletimt emran
                     }
                 }
                 case "right" -> {
@@ -302,8 +302,13 @@ public class State {
     public void printBoard() {
         try {
             System.out.println("-------------------------------------------");
+            System.out.print("  X");
+            for(int i = 0; i < boardSize;i++){
+                System.out.print(i+" ");
+            }
+            System.out.println("");
             for (int i = 0; i < boardSize; i++) {
-
+                    System.out.print("Y"+i);
                 for (int j = 0; j < boardSize; j++) {
                     System.out.print(boardState[i][j] + "");
                 }
