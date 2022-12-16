@@ -26,13 +26,21 @@ public class Test {
         State board = new State(board_size);
         board.printBoard();
         System.out.println(board.winCondition());
+        board.super_secret_test_case();
+        board.printBoard();
         do{     
             board.play();
             board.printBoard();
         }
         while(board.winCondition() == "N");        
-        System.out.println(board.winCondition());
-
+        switch (board.winner) {
+            case "B":
+                System.out.println("BLUE WINS");
+                break;
+            case "R":
+                System.out.println("RED WINS");
+                break;
+        }
         
         /* WINSTATE TESTLERI SİLMEYİN
         System.out.println(board.winsState());

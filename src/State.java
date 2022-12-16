@@ -439,5 +439,24 @@ public class State {
         }
 
     }
+    public void super_secret_test_case(){
+        for(int i = 0;i < 8;i++){
+            for(int j = 0; j < 8;j++){
+                boardState[i][j] = " -";                        
+            }
+        }
+        for(int i = 5;i < 8;i++){
+            for(int j = 5; j < 8;j++){
+                boardState[i][j] = " B";                        
+            }
+        }
+                // X  Y
+        boardState[5][5] = " -";
+        boardState[5][4] = " B";
+        for(int i = 2;i < 5;i++){
+            for(int j = 2; j < 5;j++){
+                boardState[i][j] = " R";                        
+            }
+        }
+    }
 }
-//TURN BİTİŞi EKLENCEK
