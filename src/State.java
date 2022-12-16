@@ -1,9 +1,5 @@
-
-import java.lang.reflect.Array;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 /*
@@ -266,6 +262,7 @@ public class State {
         for(int i = 0; i < returnArr.length; i++){
             l.add(returnArr[i]);
         }
+        System.out.println(l);
         return l;
     }
 
@@ -284,12 +281,14 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
-                System.out.println(boardState[x][y]);
+                if(!boardState[x][y].equals(" B") || (y < 0 || y >= boardSize || x < 0 || x >= boardSize)){
+                    System.out.println("Wrong");
+                }
             } while (!boardState[x][y].equals(" B") || (y < 0 || y >= boardSize || x < 0 || x >= boardSize));
-            do {
+            do{
                 System.out.print("Direction: ");//while 
                 direction = sc.next();
-            } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right"));
+            }while(!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction)));
 
             System.out.println("\n");
 
@@ -303,15 +302,15 @@ public class State {
                     y = check[2];
                     printBoard();
                     do {
-                        if (canJump(x, y, turn).get(0) == "true") {
+                        if ("true".equals(canJump(x, y, turn).get(0))) {
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
                         }
-                        if (!(canJump(x, y, turn).get(0) == "true")) {
+                        if (!("true".equals(canJump(x, y, turn).get(0)))) {
                             turn = Player.Red;
                             return;
                         }
-                    } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right" || direction == "quit") || !canJump(x, y, turn).contains(direction));
+                    } while ((!"quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
 
                     check = move(direction, x, y, turn);
 
@@ -331,14 +330,14 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
-                System.out.println(boardState[x][y]);
-
+                if(!boardState[x][y].equals(" R") || (y < 0 || y >= boardSize || x < 0 || x >= boardSize)){
+                    System.out.println("Wrong");
+                }
             } while (!boardState[x][y].equals(" R") || (y < 0 || y >= boardSize || x < 0 || x >= boardSize));
-            do {
+            do{
                 System.out.print("Direction: ");//while 
                 direction = sc.next();
-            } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right"));
-
+            }while(!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction)));
             System.out.println("\n");
 
             int[] check = move(direction, x, y, turn);
