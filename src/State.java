@@ -94,22 +94,48 @@ public class State {
     public String winCondition() {
         String redWin = "R", blueWin = "B";
         winner = "N";
-
-        for (int i = 0; i < (boardSize / 2) - 1; i++) {
-            for (int j = 0; j < (boardSize / 2) - 1; j++) {
-                //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
-                if (boardState[i][j] != " R") {
-                    redWin = "N";
-                    break;
+        if(boardSize%2 == 0){
+            for (int i = 0; i < (boardSize / 2) - 1; i++) {
+                for (int j = 0; j < (boardSize / 2) - 1; j++) {
+                    //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
+                    if (boardState[i][j] != " R") {
+                        redWin = "N";
+                        break;
+                    }
                 }
             }
+            for (int i = boardSize - 1; (boardSize / 2) < i; i--) {
+                for (int j = boardSize - 1; (boardSize / 2) < j; j--) {
+                    //HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
+                    if (boardState[i][j] != " B") {
+                        blueWin = "N";
+                        break;
+                    }
+                }
+            }        
         }
-        for (int i = boardSize - 1; (boardSize / 2) < i; i--) {
-            for (int j = boardSize - 1; (boardSize / 2) < j; j--) {
-                //HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
-                if (boardState[i][j] != " B") {
-                    blueWin = "N";
-                    break;
+        
+        else{
+            int stoneCount = (boardSize - 1) / 2;
+            int s2 = stoneCount - 1;
+            for (int i = 0; i <= stoneCount; i++, s2--) {
+                for (int j = 0; j <= s2; j++) {
+                    //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
+                    if (boardState[i][j] != " R") {
+                        redWin = "N";
+                        break;
+                    }
+                }
+            }
+            stoneCount = (boardSize - 1) / 2;
+            s2 = stoneCount;
+            for (int i = boardSize - 1; i > stoneCount; i--, s2++) {
+                for (int j = boardSize - 1; j > s2; j--) {
+                    //HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
+                    if (boardState[i][j] != " B") {
+                        blueWin = "N";
+                        break;
+                    }
                 }
             }
         }
@@ -373,7 +399,7 @@ public class State {
         }
     }
 
-    public boolean isInWinZone(int stoneX, int stoneY, Player turn) {
+    public boolean isInWinZone(int stoneX, int stoneY) {
         if (Player.Blue == turn) {
             if ((stoneX < (boardSize / 2) - 1 && stoneX > 0) && (stoneY < (boardSize / 2) - 1 && stoneY > 0)) {
                 return true;
@@ -385,37 +411,6 @@ public class State {
             }
         }
         return false;
-    }
-
-    public void isMoveable(int stoneX, int stoneY, String direction) {
-        if (isInWinZone(stoneX, stoneY, turn)) {
-            switch (direction.toLowerCase()) {
-                case "up":
-                    break;
-                case "down":
-                    break;
-                case "left":
-                    break;
-                case "right":
-                    break;
-            }
-        }
-        if (turn == Player.Red) {
-            switch (direction.toLowerCase()) {
-                case "up":
-                    break;
-                case "left":
-                    break;
-            }
-        } else {
-            switch (direction.toLowerCase()) {
-                case "down":
-                    break;
-                case "right":
-                    break;
-            }
-        }
-
     }
 
     public void printBoard() {
@@ -439,6 +434,7 @@ public class State {
         }
 
     }
+    
     public void super_secret_test_case(){
         for(int i = 0;i < 8;i++){
             for(int j = 0; j < 8;j++){
