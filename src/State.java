@@ -236,6 +236,39 @@ public class State {
 
     }
 
+    private List<String> canJump(int stoneLocationX, int stoneLocationY, Player p) {
+        String[] returnArr = {"false", "false", "false", "false", "false"};//canJump up down left right
+        if (p == Player.Red) {
+            if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {//up
+                returnArr[1] = "up";
+                returnArr[0] = "true";
+            } if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {//left
+                returnArr[3] = "left";
+                returnArr[0] = "true";
+            } if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -") {//right
+                returnArr[4] = "right";
+                returnArr[0] = "true";
+            }
+        } else {
+            if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -") {//right
+                returnArr[4] = "right";
+                returnArr[0] = "true";
+            } if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {//left
+                returnArr[3] = "left";
+                returnArr[0] = "true";
+            } if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -") {//down
+                returnArr[2] = "down";
+                returnArr[0] = "true";
+            }
+
+        }
+        List<String> l = new ArrayList<>();
+        for(int i = 0; i < returnArr.length; i++){
+            l.add(returnArr[i]);
+        }
+        return l;
+    }
+
     public void play() {
         Scanner sc = new Scanner(System.in);
 
@@ -247,21 +280,16 @@ public class State {
             System.out.println(turn + "'s turn.");
 
             do {
-
-                while (y < 0 || y >= boardSize || x < 0 || x >= boardSize) {
-
-                    System.out.print("x: ");
-                    x = sc.nextInt();
-                    System.out.print("y: ");
-                    y = sc.nextInt();
-                    System.out.println(boardState[x][y]);
-                    do {
-                        System.out.print("Direction: ");//while 
-                        direction = sc.next();
-                    } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right"));
-
-                }
-            } while (!boardState[x][y].equals(" B"));
+                System.out.print("x: ");
+                x = sc.nextInt();
+                System.out.print("y: ");
+                y = sc.nextInt();
+                System.out.println(boardState[x][y]);
+            } while (!boardState[x][y].equals(" B") || (y < 0 || y >= boardSize || x < 0 || x >= boardSize));
+            do {
+                System.out.print("Direction: ");//while 
+                direction = sc.next();
+            } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right"));
 
             System.out.println("\n");
 
@@ -269,58 +297,75 @@ public class State {
             //1 zıplayarak olan 0 kayan -1 unable to move
 
             if (check[0] == 1) {
-                x = check[1];
-                y = check[2];
-                do {
-                    System.out.print("Direction: (Input quit to quit)");//while 
-                    direction = sc.next();
-                } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right" || direction == "quit"));
+                while (check[0] == 1) {
+                    direction = "emre";
+                    x = check[1];
+                    y = check[2];
+                    printBoard();
+                    do {
+                        if (canJump(x, y, turn).get(0) == "true") {
+                            System.out.print("Direction: (Input quit to quit): ");//while 
+                            direction = sc.next();
+                        }
+                        if (!(canJump(x, y, turn).get(0) == "true")) {
+                            turn = Player.Red;
+                            return;
+                        }
+                    } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right" || direction == "quit") || !canJump(x, y, turn).contains(direction));
 
-                check = move(direction, x, y, turn);
+                    check = move(direction, x, y, turn);
 
-                turn = Player.Blue;
+                }
+                turn = Player.Red;
+
             } else if (check[0] == 0) {
                 turn = Player.Red;
             } else {
                 turn = Player.Blue;
             }
-        }
-        else {
+        } else {
             System.out.println(turn + "'s turn.");
 
-             do {
+            do {
+                System.out.print("x: ");
+                x = sc.nextInt();
+                System.out.print("y: ");
+                y = sc.nextInt();
+                System.out.println(boardState[x][y]);
 
-                while (y < 0 || y >= boardSize || x < 0 || x >= boardSize) {
-
-                    System.out.print("x: ");
-                    x = sc.nextInt();
-                    System.out.print("y: ");
-                    y = sc.nextInt();
-                    System.out.println(boardState[x][y]);
-                    do {
-                        System.out.print("Direction: ");//while 
-                        direction = sc.next();
-                    } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right"));
-
-                }
-            } while (!boardState[x][y].equals(" R"));
+            } while (!boardState[x][y].equals(" R") || (y < 0 || y >= boardSize || x < 0 || x >= boardSize));
+            do {
+                System.out.print("Direction: ");//while 
+                direction = sc.next();
+            } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right"));
 
             System.out.println("\n");
 
             int[] check = move(direction, x, y, turn);
             //1 zıplayarak olan 0 kayan -1 unable to move
 
-            if (check[0] == 1) {
-                x = check[1];
-                y = check[2];
-                do {
-                    System.out.print("Direction: (Input quit to quit)");//while 
-                    direction = sc.next();
-                } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right" || direction == "quit"));
+            if (check[0] == 1) {                
+                while (check[0] == 1) {
+                    direction = "emre";
+                    x = check[1];
+                    y = check[2];
+                    printBoard();
+                    do {
+                        if (canJump(x, y, turn).get(0) == "true") {
+                            System.out.print("Direction: (Input quit to quit): ");//while 
+                            direction = sc.next();
+                        }
+                        if (!(canJump(x, y, turn).get(0) == "true")) {
+                            turn = Player.Blue;
+                            return;
+                        }
+                    } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right" || direction == "quit") || !canJump(x, y, turn).contains(direction));
 
-                check = move(direction, x, y, turn);
+                    check = move(direction, x, y, turn);
 
-                turn = Player.Red;
+                }
+                turn = Player.Blue;
+
             } else if (check[0] == 0) {
                 turn = Player.Blue;
             } else {
