@@ -233,7 +233,7 @@ public class State {
     }
 
     private List<String> canJump(int stoneLocationX, int stoneLocationY, Player p) {
-        String[] returnArr = {"false", "false", "false", "false", "false"};//canJump up down left right
+        String[] returnArr = {"false", "false", "false", "false", "false", "quit"};//canJump up down left right
         if (p == Player.Red) {
             if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {//up
                 returnArr[1] = "up";
