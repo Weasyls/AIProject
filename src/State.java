@@ -310,7 +310,7 @@ public class State {
                             turn = Player.Red;
                             return;
                         }
-                    } while ((!"quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
+                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
 
                     check = move(direction, x, y, turn);
 
@@ -350,15 +350,15 @@ public class State {
                     y = check[2];
                     printBoard();
                     do {
-                        if (canJump(x, y, turn).get(0) == "true") {
+                        if ("true".equals(canJump(x, y, turn).get(0))) {
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
                         }
-                        if (!(canJump(x, y, turn).get(0) == "true")) {
+                        if (!("true".equals(canJump(x, y, turn).get(0)))) {
                             turn = Player.Blue;
                             return;
                         }
-                    } while ((direction == "up" || direction == "down" || direction == "left" || direction == "right" || direction == "quit") || !canJump(x, y, turn).contains(direction));
+                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
 
                     check = move(direction, x, y, turn);
 
