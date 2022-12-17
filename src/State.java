@@ -139,12 +139,14 @@ public class State {
                 }
             }
         }
-        // BURA DAHA TEMİZ YAZILABİLİR AMA KAFAM ÇALIŞMADIĞI İÇİN BÖYLE YAPTIM
+        
         if (redWin == "R") {
             winner = "R";
+            System.out.println("RED WINS");
         }
         if (blueWin == "B") {
             winner = "B";
+            System.out.println("BLUE WINS");
         }
         return winner;
     }
@@ -474,7 +476,7 @@ public class State {
         } else { // FOR ODD BOARDSIZE
             int stoneCount = (boardSize - 1) / 2;
             int s2 = stoneCount - 1;
-            if (Player.Red == turn) {// AMELELİK VAR BURDA YANLIŞ ALT TARAF
+            if (Player.Red == turn) {
                 for (int i = 0; i <= stoneCount; i++, s2--) {
                     for (int j = 0; j <= s2; j++) {
                         //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
@@ -483,7 +485,7 @@ public class State {
                         }
                     }
                 }
-            }// AMELELİK VAR BURDA YANLIŞ ALT TARAF
+            }
             if (Player.Blue == turn) {
                 stoneCount = (boardSize - 1) / 2;
                 s2 = stoneCount;
