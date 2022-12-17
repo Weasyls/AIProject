@@ -25,11 +25,10 @@ public class Test {
         
         State board = new State(board_size);
         board.printBoard();
-        board.super_secret_test_case();
+        board.super_secret_test_case2();
         board.printBoard();
         do{     
             board.play();
-            board.printBoard();
         }
         while(board.winCondition() == "N");        
         switch (board.winner) {
