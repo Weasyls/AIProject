@@ -287,7 +287,7 @@ public class State {
             }
 
         }
-        
+
     }
 
     private List<String> canJump(int stoneLocationX, int stoneLocationY, Player p) {
@@ -392,7 +392,6 @@ public class State {
                     direction = "emre";
                     x = check[1];
                     y = check[2];
-                    printBoard();
                     do {
                         if ("true".equals(canJump(x, y, turn).get(0))) {
                             System.out.print("Direction: (Input quit to quit): ");//while 
@@ -405,7 +404,7 @@ public class State {
                     } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
 
                     check = move(direction, x, y, turn);
-
+                    printBoard();
                 }
                 turn = Player.Red;
 
@@ -432,10 +431,9 @@ public class State {
 
             if (check[0] == 1) {
                 while (check[0] == 1) {
-                    direction = "emre";
+                    direction = "emran";
                     x = check[1];
                     y = check[2];
-                    printBoard();
                     do {
                         if ("true".equals(canJump(x, y, turn).get(0))) {
                             System.out.print("Direction: (Input quit to quit): ");//while 
@@ -448,7 +446,7 @@ public class State {
                     } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
 
                     check = move(direction, x, y, turn);
-
+                    printBoard();
                 }
                 turn = Player.Blue;
 
