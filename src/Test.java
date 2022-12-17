@@ -25,7 +25,8 @@ public class Test {
         
         State board = new State(board_size);
         board.printBoard();
-        System.out.println(board.winCondition());
+        board.super_secret_test_case();
+        board.printBoard();
         do{     
             board.play();
             board.printBoard();
