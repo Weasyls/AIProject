@@ -436,6 +436,8 @@ public class State {
                     direction = "emre";
                     x = check[1];
                     y = check[2];
+                    Available_moves(x, y);
+
                     do {
                         if ("true".equals(canJump(x, y, turn).get(0))) {
                             System.out.print("Direction: (Input quit to quit): ");// while
@@ -483,6 +485,8 @@ public class State {
                     direction = "emran";
                     x = check[1];
                     y = check[2];
+                    Available_moves(x, y);
+
                     do {
                         if ("true".equals(canJump(x, y, turn).get(0))) {
                             System.out.print("Direction: (Input quit to quit): ");// while
