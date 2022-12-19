@@ -1,15 +1,16 @@
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  *
- * @author Emran
+ * @author ZenBook
  */
 public class State {
 
@@ -41,6 +42,35 @@ public class State {
         }
         createStones(boardSize);
 
+    }
+    
+    public boolean checkDirectionInput(String direction){
+        if(!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction))){
+            System.out.println("Wrong input");
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public boolean checkStoneInput(int x, int y){
+        if(turn == Player.Blue){
+            if ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" B")) {
+                System.out.println("Wrong input");
+                return true;
+            }
+            
+            return false;
+        }
+        else{
+            if ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" R")) {
+                System.out.println("Wrong input");
+                return true;
+            } 
+            
+            return false;
+        }
+        
     }
 
     public void createStones(int size) {
@@ -139,14 +169,16 @@ public class State {
                 }
             }
         }
+<<<<<<< Updated upstream
         
+=======
+        // BURA DAHA TEMİZ YAZILABİLİR AMA KAFAM ÇALIŞMADIĞI İÇİN BÖYLE YAPTIM
+>>>>>>> Stashed changes
         if (redWin == "R") {
             winner = "R";
-            System.out.println("RED WINS");
         }
         if (blueWin == "B") {
             winner = "B";
-            System.out.println("BLUE WINS");
         }
         return winner;
     }
@@ -157,6 +189,7 @@ public class State {
         boardState[i][j] = temp;                  //3
     }
 
+<<<<<<< Updated upstream
     public int[] move(String direction, int stoneLocationX, int stoneLocationY, Player p) {//Aslında stroneLocationX y ve stoneLocationY de x
         List<String> list = canJump(stoneLocationX, stoneLocationY, p);
         boolean check = isInWinZone(stoneLocationX, stoneLocationY);
@@ -221,9 +254,44 @@ public class State {
                     }
                     System.out.println("Invalid move.");
                     return new int[]{-1};
+=======
+    private List<String> canJump(int stoneLocationX, int stoneLocationY) {
+        String[] returnArr = {"false", "false", "false", "false", "false", "quit"};//canJump up down left right
+        if (turn == Player.Red) {
+            try {
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {//up
+                    returnArr[1] = "up";
+                    returnArr[0] = "true";
                 }
+
+            } catch (Exception e) {
+            }
+            try {
+                if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {//left
+                    returnArr[3] = "left";
+                    returnArr[0] = "true";
+                }
+
+            } catch (Exception e) {
+            }
+            try {
+                if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//right
+                    returnArr[4] = "right";
+                    returnArr[0] = "true";
+                }
+
+            } catch (Exception e) {
+            }
+            try {
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//down
+                    returnArr[2] = "down";
+                    returnArr[0] = "true";
+>>>>>>> Stashed changes
+                }
+            } catch (Exception e) {
             }
         } else {
+<<<<<<< Updated upstream
             switch (direction.toLowerCase()) {
                 case "up" -> {
                     if (" -".equals(boardState[stoneLocationX][stoneLocationY - 1]) && isInWinZone(stoneLocationX, stoneLocationY)) {
@@ -285,48 +353,7 @@ public class State {
                     }
                     System.out.println("Invalid move.");
                     return new int[]{-1};
-                }
-            }
-
-        }
-
-    }
-
-    private List<String> canJump(int stoneLocationX, int stoneLocationY, Player p) {
-        String[] returnArr = {"false", "false", "false", "false", "false", "quit"};//canJump up down left right
-        if (p == Player.Red) {
-            try {
-                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {//up
-                    returnArr[1] = "up";
-                    returnArr[0] = "true";
-                }
-
-            } catch (Exception e) {
-            }
-            try {
-                if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {//left
-                    returnArr[3] = "left";
-                    returnArr[0] = "true";
-                }
-
-            } catch (Exception e) {
-            }
-            try {
-                if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//right
-                    returnArr[4] = "right";
-                    returnArr[0] = "true";
-                }
-
-            } catch (Exception e) {
-            }
-            try {
-                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//down
-                    returnArr[2] = "down";
-                    returnArr[0] = "true";
-                }
-            } catch (Exception e) {
-            }
-        } else {
+=======
             try {
                 if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -") {//right
                     returnArr[4] = "right";
@@ -352,6 +379,7 @@ public class State {
                 if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//up
                     returnArr[1] = "up";
                     returnArr[0] = "true";
+>>>>>>> Stashed changes
                 }
 
             } catch (Exception e) {
@@ -365,12 +393,209 @@ public class State {
         return l;
     }
 
+<<<<<<< Updated upstream
+    private List<String> canJump(int stoneLocationX, int stoneLocationY, Player p) {
+        String[] returnArr = {"false", "false", "false", "false", "false", "quit"};//canJump up down left right
+        if (p == Player.Red) {
+            try {
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {//up
+=======
+    private List<String> canDash(int stoneLocationX, int stoneLocationY) {
+        String[] returnArr = {"false", "false", "false", "false", "false", "quit"};//canJump up down left right
+        if (turn == Player.Red) {
+            try {
+                if (" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) {//up
+>>>>>>> Stashed changes
+                    returnArr[1] = "up";
+                    returnArr[0] = "true";
+                }
+
+            } catch (Exception e) {
+            }
+            try {
+<<<<<<< Updated upstream
+                if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {//left
+=======
+                if (" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) {//left
+>>>>>>> Stashed changes
+                    returnArr[3] = "left";
+                    returnArr[0] = "true";
+                }
+
+            } catch (Exception e) {
+            }
+            try {
+<<<<<<< Updated upstream
+                if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//right
+=======
+                if (" -".equals(boardState[stoneLocationX + 1][stoneLocationY]) && isInWinZone(stoneLocationX, stoneLocationY)) {//right
+>>>>>>> Stashed changes
+                    returnArr[4] = "right";
+                    returnArr[0] = "true";
+                }
+
+            } catch (Exception e) {
+            }
+            try {
+<<<<<<< Updated upstream
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//down
+=======
+                if (" -".equals(boardState[stoneLocationX][stoneLocationY + 1]) && isInWinZone(stoneLocationX, stoneLocationY)) {//down
+>>>>>>> Stashed changes
+                    returnArr[2] = "down";
+                    returnArr[0] = "true";
+                }
+            } catch (Exception e) {
+            }
+        } else {
+            try {
+<<<<<<< Updated upstream
+                if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -") {//right
+=======
+                if (" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) {//right
+>>>>>>> Stashed changes
+                    returnArr[4] = "right";
+                    returnArr[0] = "true";
+                }
+            } catch (Exception e) {
+            }
+            try {
+<<<<<<< Updated upstream
+                if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//left
+=======
+                if (" -".equals(boardState[stoneLocationX - 1][stoneLocationY]) && isInWinZone(stoneLocationX, stoneLocationY)) {//left
+>>>>>>> Stashed changes
+                    returnArr[3] = "left";
+                    returnArr[0] = "true";
+                }
+            } catch (Exception e) {
+            }
+            try {
+<<<<<<< Updated upstream
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -") {//down
+=======
+                if (" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) {//down
+>>>>>>> Stashed changes
+                    returnArr[2] = "down";
+                    returnArr[0] = "true";
+                }
+            } catch (Exception e) {
+            }
+            try {
+<<<<<<< Updated upstream
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//up
+=======
+                if (" -".equals(boardState[stoneLocationX][stoneLocationY - 1]) && isInWinZone(stoneLocationX, stoneLocationY)) {//up
+>>>>>>> Stashed changes
+                    returnArr[1] = "up";
+                    returnArr[0] = "true";
+                }
+
+            } catch (Exception e) {
+            }
+
+        }
+        List<String> l = new ArrayList<>();
+        for (int i = 0; i < returnArr.length; i++) {
+            l.add(returnArr[i]);
+        }
+        return l;
+    }
+
+    public int[] move(String direction, int stoneLocationX, int stoneLocationY) {//Aslında stroneLocationX y ve stoneLocationY de x
+        int ret = -1;
+        int x = -1;
+        int y = -1;
+        List<String> jump = canJump(stoneLocationX, stoneLocationY);
+        List<String> dash = canDash(stoneLocationX, stoneLocationY);
+        boolean check = isInWinZone(stoneLocationX, stoneLocationY);
+        direction = direction.toLowerCase();
+        if (turn == Player.Blue) {
+            if (dash.contains(direction)) {
+                if ("up".equals(direction) && check) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 1);
+                    ret =  0;
+                } else if ("left".equals(direction) && check) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX - 1, stoneLocationY);
+                    ret= 0;
+                } else if ("right".equals(direction)) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX + 1, stoneLocationY);
+                    ret= 0;
+                } else if ("down".equals(direction)) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 1);
+                    ret= 0;
+                } else if ("quit".equals(direction)) {
+                    ret= 0;
+                }
+
+            } else if (jump.contains(direction)) {
+                if ("up".equals(direction) && check) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 2);
+                    return new int[]{1, stoneLocationX, stoneLocationY-2};
+                } else if ("left".equals(direction) && check) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX - 2, stoneLocationY);
+                    return new int[]{1, stoneLocationX - 2, stoneLocationY};
+                } else if ("right".equals(direction)) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX + 2, stoneLocationY);
+                    return new int[]{1, stoneLocationX + 2, stoneLocationY};
+                } else if ("down".equals(direction)) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 2);
+                    return new int[]{1, stoneLocationX, stoneLocationY+2};
+                }
+
+            }
+            else{
+                System.out.println("Invalid move");
+                ret = -1;
+            }
+        } else {
+            if (dash.contains(direction)) {
+                if ("up".equals(direction)) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 1);
+                    ret= 0;
+                } else if ("left".equals(direction)) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX - 1, stoneLocationY);
+                    ret= 0;
+                } else if ("right".equals(direction) && check) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX + 1, stoneLocationY);
+                    ret= 0;
+                } else if ("down".equals(direction)&& check) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 1);
+                    ret= 0;
+                } else if ("quit".equals(direction)) {
+                    ret= 0;
+                }
+
+            } else if (jump.contains(direction)) {
+                if ("up".equals(direction)) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 2);
+                    return new int[]{1, stoneLocationX, stoneLocationY-2};
+                } else if ("left".equals(direction)) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX - 2, stoneLocationY);
+                    return new int[]{1, stoneLocationX - 2, stoneLocationY};
+                } else if ("right".equals(direction)  && check) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX + 2, stoneLocationY);
+                    return new int[]{1, stoneLocationX + 2, stoneLocationY};
+                } else if ("down".equals(direction) && check) {
+                    swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 2);
+                    return new int[]{1, stoneLocationX, stoneLocationY+2};
+                }
+            }
+            else{
+                System.out.println("Invalid move");
+                ret = -1;
+            }
+        }
+        return new int[]{ret, stoneLocationX, stoneLocationY};
+
+    }
+
     public void play() {
+
         Scanner sc = new Scanner(System.in);
 
         int x = -1;
         int y = -1;
-
         String direction = "emre";
 
         if (turn == Player.Blue) {
@@ -381,32 +606,50 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
+<<<<<<< Updated upstream
                 System.out.print("Direction: ");//while 
                 direction = sc.next();
             } while ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" B") || (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction))));
+=======
+                availableMoves(0,x,y);
+                System.out.print("Direction: ");//while 
+                direction = sc.next();
+            } while (checkStoneInput(x, y) || checkDirectionInput(direction));
+>>>>>>> Stashed changes
 
-            int[] check = move(direction, x, y, turn);
+            int[] check = move(direction, x, y);
             printBoard();
             //1 zıplayarak olan 0 kayan -1 unable to move
 
             if (check[0] == 1) {
                 while (check[0] == 1) {
-                    direction = "emre";
                     x = check[1];
                     y = check[2];
+<<<<<<< Updated upstream
                     do {
                         if ("true".equals(canJump(x, y, turn).get(0))) {
+=======
+                    direction = "emre";
+                    do {
+                        if ("true".equals(canJump(x, y).get(0))) {
+                            availableMoves(check[0],x,y);
+>>>>>>> Stashed changes
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
                         }
-                        if (!("true".equals(canJump(x, y, turn).get(0)))) {
+                        else{
                             turn = Player.Red;
                             return;
                         }
+<<<<<<< Updated upstream
                     } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
+=======
+                    } while (checkStoneInput(x,y) || checkDirectionInput(direction) || !canJump(x, y).contains(direction));
+>>>>>>> Stashed changes
 
-                    check = move(direction, x, y, turn);
+                    check = move(direction, x, y);
                     printBoard();
+
                 }
                 turn = Player.Red;
 
@@ -423,32 +666,50 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
+<<<<<<< Updated upstream
                 System.out.print("Direction: ");
                 direction = sc.next();
             } while ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" R") || (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction))));
+=======
+                availableMoves(0,x,y);
+                System.out.print("Direction: ");
+                direction = sc.next();
+            } while (checkStoneInput(x,y) || checkDirectionInput(direction));
+>>>>>>> Stashed changes
 
-            int[] check = move(direction, x, y, turn);
+            int[] check = move(direction, x, y);
             printBoard();
             //1 zıplayarak olan 0 kayan -1 unable to move
 
             if (check[0] == 1) {
                 while (check[0] == 1) {
-                    direction = "emran";
                     x = check[1];
                     y = check[2];
+<<<<<<< Updated upstream
                     do {
                         if ("true".equals(canJump(x, y, turn).get(0))) {
+=======
+                    direction = "emre";
+                    do {
+                        if ("true".equals(canJump(x, y).get(0))) {
+                            availableMoves(check[0],x,y);
+>>>>>>> Stashed changes
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
                         }
-                        if (!("true".equals(canJump(x, y, turn).get(0)))) {
-                            turn = Player.Blue;
+                        else{
+                            turn = Player.Red;
                             return;
                         }
+<<<<<<< Updated upstream
                     } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
+=======
+                    } while (checkStoneInput(x,y) || checkDirectionInput(direction) || !canJump(x, y).contains(direction));
+>>>>>>> Stashed changes
 
-                    check = move(direction, x, y, turn);
+                    check = move(direction, x, y);
                     printBoard();
+
                 }
                 turn = Player.Blue;
 
@@ -476,7 +737,7 @@ public class State {
         } else { // FOR ODD BOARDSIZE
             int stoneCount = (boardSize - 1) / 2;
             int s2 = stoneCount - 1;
-            if (Player.Red == turn) {
+            if (Player.Red == turn) {// AMELELİK VAR BURDA YANLIŞ ALT TARAF
                 for (int i = 0; i <= stoneCount; i++, s2--) {
                     for (int j = 0; j <= s2; j++) {
                         //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
@@ -485,7 +746,7 @@ public class State {
                         }
                     }
                 }
-            }
+            }// AMELELİK VAR BURDA YANLIŞ ALT TARAF
             if (Player.Blue == turn) {
                 stoneCount = (boardSize - 1) / 2;
                 s2 = stoneCount;
@@ -569,4 +830,58 @@ public class State {
             }
         }
     }
+<<<<<<< Updated upstream
+=======
+    
+    public void availableMoves(int check, int stoneLocationX, int stoneLocationY) {// Aslında stroneLocationX y ve
+        // stoneLocationY de x
+        
+        String moves = "";
+
+        // order will be up,down,right,left
+        List<String> jump = canJump(stoneLocationX, stoneLocationY);
+        List<String> dash = canDash(stoneLocationX, stoneLocationY);
+        if(check == 0){
+           if(jump.contains("up")){
+                moves += "Jump Up, ";
+            }
+            else if(dash.contains("up")){
+                moves += "Dash Up, "; 
+            }
+            if(jump.contains("down")){
+                moves += "Jump Down, ";
+            }
+            else if(dash.contains("down")){
+                moves += "Dash Down, "; 
+            }
+            
+            if(jump.contains("right")){
+                moves += "Jump Right, ";
+            }
+            else if(dash.contains("right")){
+                moves += "Dash Right, "; 
+            }
+            if(jump.contains("left")){
+                moves += "Jump Left, ";
+            }
+            else if(dash.contains("left")){
+                moves += "Dash Left, "; 
+            } 
+        }
+        else if(check == 1){
+            if(jump.contains("up")){
+                moves += "Jump Up, ";
+            }if(jump.contains("down")){
+                moves += "Jump Down, ";
+            }if(jump.contains("right")){
+                moves += "Jump Right, ";
+            }if(jump.contains("left")){
+                moves += "Jump Left, ";
+            }
+        }
+        System.out.println("Available moves:");
+        System.out.println(moves);
+    }
+
+>>>>>>> Stashed changes
 }
