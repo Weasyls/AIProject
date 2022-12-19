@@ -16,12 +16,13 @@ public class State {
     enum Player {
         Red, Blue
     }
-    String[][] boardState; //GEÇİCİ OLARAK PRİVATE KALDIRDIM MAİNDE MOVE KULLANMADNA DEĞİŞTİRİP DEBUG İÇİN
+
+    String[][] boardState; // GEÇİCİ OLARAK PRİVATE KALDIRDIM MAİNDE MOVE KULLANMADNA DEĞİŞTİRİP DEBUG İÇİN
     String winner = "N";
     Player turn = Player.Blue;
     int boardSize;
 
-    public State(int size) {//Birden fazla parametre alan state constructoru o anki boardı oluşturmak için
+    public State(int size) {// Birden fazla parametre alan state constructoru o anki boardı oluşturmak için
         createBoard(size);
         resetBoard();
     }
@@ -32,7 +33,7 @@ public class State {
         this.boardSize = st.boardSize;
     }
 
-    public void resetBoard() {  //CLEAR BOARDDAN İNİTİALA ÇEVİRDİM TAŞLARI DA BURDA KOYUYOR
+    public void resetBoard() { // CLEAR BOARDDAN İNİTİALA ÇEVİRDİM TAŞLARI DA BURDA KOYUYOR
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -46,7 +47,7 @@ public class State {
     public void createStones(int size) {
 
         if (size % 2 == 0) {
-            int stoneCount = (size / 2) - 1;//8-3 6-2 4-1  (N+1)*2 = boardSize
+            int stoneCount = (size / 2) - 1;// 8-3 6-2 4-1 (N+1)*2 = boardSize
 
             for (int i = 0; i < stoneCount; i++) {
                 for (int j = 0; j < stoneCount; j++) {
@@ -78,7 +79,8 @@ public class State {
 
     }
 
-    public void sizeValidity(int size) { // SIZE KURALLARA UYMUYORSA DEFAULT OLARAK 8 YAPIYOR UYUYORSA PARAMETREYI KULLANIYOR
+    public void sizeValidity(int size) { // SIZE KURALLARA UYMUYORSA DEFAULT OLARAK 8 YAPIYOR UYUYORSA PARAMETREYI
+                                         // KULLANIYOR
         if (size < 4) {
             this.boardSize = 8;
         } else {
@@ -99,7 +101,7 @@ public class State {
         if (boardSize % 2 == 0) {
             for (int i = 0; i < (boardSize / 2) - 1; i++) {
                 for (int j = 0; j < (boardSize / 2) - 1; j++) {
-                    //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
+                    // HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
                     if (boardState[i][j] != " R") {
                         redWin = "N";
                         break;
@@ -108,7 +110,7 @@ public class State {
             }
             for (int i = boardSize - 1; (boardSize / 2) < i; i--) {
                 for (int j = boardSize - 1; (boardSize / 2) < j; j--) {
-                    //HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
+                    // HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
                     if (boardState[i][j] != " B") {
                         blueWin = "N";
                         break;
@@ -120,7 +122,7 @@ public class State {
             int s2 = stoneCount - 1;
             for (int i = 0; i <= stoneCount; i++, s2--) {
                 for (int j = 0; j <= s2; j++) {
-                    //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
+                    // HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
                     if (boardState[i][j] != " R") {
                         redWin = "N";
                         break;
@@ -131,7 +133,7 @@ public class State {
             s2 = stoneCount;
             for (int i = boardSize - 1; i > stoneCount; i--, s2++) {
                 for (int j = boardSize - 1; j > s2; j--) {
-                    //HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
+                    // HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
                     if (boardState[i][j] != " B") {
                         blueWin = "N";
                         break;
@@ -139,7 +141,7 @@ public class State {
                 }
             }
         }
-        
+
         if (redWin == "R") {
             winner = "R";
             System.out.println("RED WINS");
@@ -151,13 +153,14 @@ public class State {
         return winner;
     }
 
-    public void swap(int a, int b, int i, int j) {//0 1 2 3 4
-        String temp = boardState[a][b];           //1
-        boardState[a][b] = boardState[i][j];      //2
-        boardState[i][j] = temp;                  //3
+    public void swap(int a, int b, int i, int j) {// 0 1 2 3 4
+        String temp = boardState[a][b]; // 1
+        boardState[a][b] = boardState[i][j]; // 2
+        boardState[i][j] = temp; // 3
     }
 
-    public int[] move(String direction, int stoneLocationX, int stoneLocationY, Player p) {//Aslında stroneLocationX y ve stoneLocationY de x
+    public int[] move(String direction, int stoneLocationX, int stoneLocationY, Player p) {// Aslında stroneLocationX y
+                                                                                           // ve stoneLocationY de x
         List<String> list = canJump(stoneLocationX, stoneLocationY, p);
         boolean check = isInWinZone(stoneLocationX, stoneLocationY);
         if (p == Player.Red) {
@@ -165,126 +168,150 @@ public class State {
                 case "up" -> {
                     if (" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 1);
-                        return new int[]{0};
+                        return new int[] { 0 };
 
-                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {
+                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1]))
+                            && boardState[stoneLocationX][stoneLocationY - 2] == " -") {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 2);
-                        return new int[]{1, stoneLocationX, stoneLocationY - 2};
+                        return new int[] { 1, stoneLocationX, stoneLocationY - 2 };
                     } else {
                         System.out.println("Invalid move.");
-                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        return new int[] { -1 };// DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK
+                                                // LAZIM
 
                     }
                 }
                 case "left" -> {
                     if (" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX - 1, stoneLocationY);
-                        return new int[]{0};
-                    } else if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {
+                        return new int[] { 0 };
+                    } else if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY]))
+                            && boardState[stoneLocationX - 2][stoneLocationY] == " -") {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX - 2, stoneLocationY);
-                        return new int[]{1, stoneLocationX - 2, stoneLocationY};
+                        return new int[] { 1, stoneLocationX - 2, stoneLocationY };
                     } else {
                         System.out.println("Invalid move.");
-                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        return new int[] { -1 };// DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK
+                                                // LAZIM
                     }
                 }
                 case "right" -> {
-                    if (" -".equals(boardState[stoneLocationX + 1][stoneLocationY]) && isInWinZone(stoneLocationX, stoneLocationY)) {
+                    if (" -".equals(boardState[stoneLocationX + 1][stoneLocationY])
+                            && isInWinZone(stoneLocationX, stoneLocationY)) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX + 1, stoneLocationY);
-                        return new int[]{0};
-                    } else if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {
+                        return new int[] { 0 };
+                    } else if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY]))
+                            && boardState[stoneLocationX + 2][stoneLocationY] == " -"
+                            && isInWinZone(stoneLocationX, stoneLocationY)) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX + 2, stoneLocationY);
-                        return new int[]{1, stoneLocationX + 2, stoneLocationY};
+                        return new int[] { 1, stoneLocationX + 2, stoneLocationY };
                     } else {
                         System.out.println("Invalid move.");
-                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        return new int[] { -1 };// DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK
+                                                // LAZIM
                     }
                 }
                 case "down" -> {
-                    if (" -".equals(boardState[stoneLocationX][stoneLocationY + 1]) && isInWinZone(stoneLocationX, stoneLocationY)) {
+                    if (" -".equals(boardState[stoneLocationX][stoneLocationY + 1])
+                            && isInWinZone(stoneLocationX, stoneLocationY)) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 1);
-                        return new int[]{0};
-                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {
+                        return new int[] { 0 };
+                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1]))
+                            && boardState[stoneLocationX][stoneLocationY + 2] == " -"
+                            && isInWinZone(stoneLocationX, stoneLocationY)) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 2);
-                        return new int[]{1, stoneLocationX, stoneLocationY + 2};
+                        return new int[] { 1, stoneLocationX, stoneLocationY + 2 };
                     } else {
                         System.out.println("Invalid move.");
-                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        return new int[] { -1 };// DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK
+                                                // LAZIM
                     }
                 }
                 case "quit" -> {
-                    return new int[]{0};
+                    return new int[] { 0 };
                 }
                 default -> {
                     if (list.get(0) == "true" && !list.isEmpty()) {
-                        return new int[]{1, stoneLocationX, stoneLocationY};
+                        return new int[] { 1, stoneLocationX, stoneLocationY };
                     }
                     System.out.println("Invalid move.");
-                    return new int[]{-1};
+                    return new int[] { -1 };
                 }
             }
         } else {
             switch (direction.toLowerCase()) {
                 case "up" -> {
-                    if (" -".equals(boardState[stoneLocationX][stoneLocationY - 1]) && isInWinZone(stoneLocationX, stoneLocationY)) {
+                    if (" -".equals(boardState[stoneLocationX][stoneLocationY - 1])
+                            && isInWinZone(stoneLocationX, stoneLocationY)) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 1);
-                        return new int[]{0};
+                        return new int[] { 0 };
 
-                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {
+                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1]))
+                            && boardState[stoneLocationX][stoneLocationY - 2] == " -"
+                            && isInWinZone(stoneLocationX, stoneLocationY)) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 2);
-                        return new int[]{1, stoneLocationX, stoneLocationY - 2};
+                        return new int[] { 1, stoneLocationX, stoneLocationY - 2 };
                     } else {
                         System.out.println("Invalid move.");
-                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        return new int[] { -1 };// DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK
+                                                // LAZIM
 
                     }
                 }
                 case "right" -> {
                     if (" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX + 1, stoneLocationY);
-                        return new int[]{0};
-                    } else if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -") {//ZIPLA
+                        return new int[] { 0 };
+                    } else if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY]))
+                            && boardState[stoneLocationX + 2][stoneLocationY] == " -") {// ZIPLA
                         swap(stoneLocationX, stoneLocationY, stoneLocationX + 2, stoneLocationY);
-                        return new int[]{1, stoneLocationX + 2, stoneLocationY};
+                        return new int[] { 1, stoneLocationX + 2, stoneLocationY };
                     } else {
                         System.out.println("Invalid move.");
-                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        return new int[] { -1 };// DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK
+                                                // LAZIM
                     }
                 }
                 case "left" -> {
-                    if (" -".equals(boardState[stoneLocationX - 1][stoneLocationY]) && isInWinZone(stoneLocationX, stoneLocationY)) {
+                    if (" -".equals(boardState[stoneLocationX - 1][stoneLocationY])
+                            && isInWinZone(stoneLocationX, stoneLocationY)) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX - 1, stoneLocationY);
-                        return new int[]{0};
-                    } else if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {
+                        return new int[] { 0 };
+                    } else if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY]))
+                            && boardState[stoneLocationX - 2][stoneLocationY] == " -"
+                            && isInWinZone(stoneLocationX, stoneLocationY)) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX - 2, stoneLocationY);
-                        return new int[]{1, stoneLocationX - 2, stoneLocationY};
+                        return new int[] { 1, stoneLocationX - 2, stoneLocationY };
                     } else {
                         System.out.println("Invalid move.");
-                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        return new int[] { -1 };// DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK
+                                                // LAZIM
                     }
 
                 }
                 case "down" -> {
                     if (" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 1);
-                        return new int[]{0};
-                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -") {
+                        return new int[] { 0 };
+                    } else if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1]))
+                            && boardState[stoneLocationX][stoneLocationY + 2] == " -") {
                         swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 2);
-                        return new int[]{1, stoneLocationX, stoneLocationY + 2};
+                        return new int[] { 1, stoneLocationX, stoneLocationY + 2 };
                     } else {
                         System.out.println("Invalid move.");
-                        return new int[]{-1};//DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK LAZIM
+                        return new int[] { -1 };// DUVARA ÇARPMA DURUMUNDA INDEX OUT OF BOUND YIYECEĞIZ ONU HANDELLAMAK
+                                                // LAZIM
                     }
                 }
                 case "quit" -> {
-                    return new int[]{0};
+                    return new int[] { 0 };
                 }
                 default -> {
                     if (canJump(stoneLocationX, stoneLocationY, p).get(0) == "true") {
-                        return new int[]{1, stoneLocationX, stoneLocationY};
+                        return new int[] { 1, stoneLocationX, stoneLocationY };
                     }
                     System.out.println("Invalid move.");
-                    return new int[]{-1};
+                    return new int[] { -1 };
                 }
             }
 
@@ -293,10 +320,11 @@ public class State {
     }
 
     private List<String> canJump(int stoneLocationX, int stoneLocationY, Player p) {
-        String[] returnArr = {"false", "false", "false", "false", "false", "quit"};//canJump up down left right
+        String[] returnArr = { "false", "false", "false", "false", "false", "quit" };// canJump up down left right
         if (p == Player.Red) {
             try {
-                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {//up
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1]))
+                        && boardState[stoneLocationX][stoneLocationY - 2] == " -") {// up
                     returnArr[1] = "up";
                     returnArr[0] = "true";
                 }
@@ -304,7 +332,8 @@ public class State {
             } catch (Exception e) {
             }
             try {
-                if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -") {//left
+                if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY]))
+                        && boardState[stoneLocationX - 2][stoneLocationY] == " -") {// left
                     returnArr[3] = "left";
                     returnArr[0] = "true";
                 }
@@ -312,7 +341,9 @@ public class State {
             } catch (Exception e) {
             }
             try {
-                if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//right
+                if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY]))
+                        && boardState[stoneLocationX + 2][stoneLocationY] == " -"
+                        && isInWinZone(stoneLocationX, stoneLocationY)) {// right
                     returnArr[4] = "right";
                     returnArr[0] = "true";
                 }
@@ -320,7 +351,9 @@ public class State {
             } catch (Exception e) {
             }
             try {
-                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//down
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1]))
+                        && boardState[stoneLocationX][stoneLocationY + 2] == " -"
+                        && isInWinZone(stoneLocationX, stoneLocationY)) {// down
                     returnArr[2] = "down";
                     returnArr[0] = "true";
                 }
@@ -328,28 +361,34 @@ public class State {
             }
         } else {
             try {
-                if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY])) && boardState[stoneLocationX + 2][stoneLocationY] == " -") {//right
+                if ((!" -".equals(boardState[stoneLocationX + 1][stoneLocationY]))
+                        && boardState[stoneLocationX + 2][stoneLocationY] == " -") {// right
                     returnArr[4] = "right";
                     returnArr[0] = "true";
                 }
             } catch (Exception e) {
             }
             try {
-                if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY])) && boardState[stoneLocationX - 2][stoneLocationY] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//left
+                if ((!" -".equals(boardState[stoneLocationX - 1][stoneLocationY]))
+                        && boardState[stoneLocationX - 2][stoneLocationY] == " -"
+                        && isInWinZone(stoneLocationX, stoneLocationY)) {// left
                     returnArr[3] = "left";
                     returnArr[0] = "true";
                 }
             } catch (Exception e) {
             }
             try {
-                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1])) && boardState[stoneLocationX][stoneLocationY + 2] == " -") {//down
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY + 1]))
+                        && boardState[stoneLocationX][stoneLocationY + 2] == " -") {// down
                     returnArr[2] = "down";
                     returnArr[0] = "true";
                 }
             } catch (Exception e) {
             }
             try {
-                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -" && isInWinZone(stoneLocationX, stoneLocationY)) {//up
+                if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1]))
+                        && boardState[stoneLocationX][stoneLocationY - 2] == " -"
+                        && isInWinZone(stoneLocationX, stoneLocationY)) {// up
                     returnArr[1] = "up";
                     returnArr[0] = "true";
                 }
@@ -381,13 +420,16 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
-                System.out.print("Direction: ");//while 
+                Available_moves(x, y);
+                System.out.print("Direction: ");// while
                 direction = sc.next();
-            } while ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" B") || (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction))));
+            } while ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" B")
+                    || (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction)
+                            || "right".equals(direction))));
 
             int[] check = move(direction, x, y, turn);
             printBoard();
-            //1 zıplayarak olan 0 kayan -1 unable to move
+            // 1 zıplayarak olan 0 kayan -1 unable to move
 
             if (check[0] == 1) {
                 while (check[0] == 1) {
@@ -396,14 +438,16 @@ public class State {
                     y = check[2];
                     do {
                         if ("true".equals(canJump(x, y, turn).get(0))) {
-                            System.out.print("Direction: (Input quit to quit): ");//while 
+                            System.out.print("Direction: (Input quit to quit): ");// while
                             direction = sc.next();
                         }
                         if (!("true".equals(canJump(x, y, turn).get(0)))) {
                             turn = Player.Red;
                             return;
                         }
-                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
+                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction)
+                            || "right".equals(direction) || "quit".equals(direction))
+                            || !canJump(x, y, turn).contains(direction));
 
                     check = move(direction, x, y, turn);
                     printBoard();
@@ -423,13 +467,16 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
+                Available_moves(x, y);
                 System.out.print("Direction: ");
                 direction = sc.next();
-            } while ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" R") || (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction))));
+            } while ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" R")
+                    || (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction)
+                            || "right".equals(direction))));
 
             int[] check = move(direction, x, y, turn);
             printBoard();
-            //1 zıplayarak olan 0 kayan -1 unable to move
+            // 1 zıplayarak olan 0 kayan -1 unable to move
 
             if (check[0] == 1) {
                 while (check[0] == 1) {
@@ -438,14 +485,16 @@ public class State {
                     y = check[2];
                     do {
                         if ("true".equals(canJump(x, y, turn).get(0))) {
-                            System.out.print("Direction: (Input quit to quit): ");//while 
+                            System.out.print("Direction: (Input quit to quit): ");// while
                             direction = sc.next();
                         }
                         if (!("true".equals(canJump(x, y, turn).get(0)))) {
                             turn = Player.Blue;
                             return;
                         }
-                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
+                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction)
+                            || "right".equals(direction) || "quit".equals(direction))
+                            || !canJump(x, y, turn).contains(direction));
 
                     check = move(direction, x, y, turn);
                     printBoard();
@@ -468,7 +517,8 @@ public class State {
                 }
             }
             if (Player.Blue == turn) {
-                if ((stoneX < boardSize - 1 && stoneX > (boardSize / 2)) && (stoneY < boardSize - 1 && stoneY > (boardSize / 2))) {
+                if ((stoneX < boardSize - 1 && stoneX > (boardSize / 2))
+                        && (stoneY < boardSize - 1 && stoneY > (boardSize / 2))) {
                     return true;
                 }
             }
@@ -479,7 +529,7 @@ public class State {
             if (Player.Red == turn) {
                 for (int i = 0; i <= stoneCount; i++, s2--) {
                     for (int j = 0; j <= s2; j++) {
-                        //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
+                        // HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
                         if (boardState[stoneX][stoneY] == boardState[i][j]) {
                             return true;
                         }
@@ -491,7 +541,7 @@ public class State {
                 s2 = stoneCount;
                 for (int i = boardSize - 1; i > stoneCount; i--, s2++) {
                     for (int j = boardSize - 1; j > s2; j--) {
-                        //HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
+                        // HEPSİ BLUE EŞİTSE İFE GİRMEZ BLUEWİN TRUE OLARAK KALIR
                         if (boardState[stoneX][stoneY] == boardState[i][j]) {
                             return true;
                         }
@@ -535,7 +585,7 @@ public class State {
                 boardState[i][j] = " B";
             }
         }
-        // X  Y
+        // X Y
         boardState[5][5] = " -";
         boardState[5][4] = " B";
         for (int i = 2; i < 5; i++) {
@@ -561,7 +611,7 @@ public class State {
         boardState[2][1] = " R";
         boardState[3][1] = " R";
 
-        // X  Y
+        // X Y
         demn = 2;
         for (int i = 4; i < 6; i++) {
             for (int j = 4; j < 6; j++) {
@@ -569,4 +619,62 @@ public class State {
             }
         }
     }
+
+    public String[] Available_moves(int stoneLocationX, int stoneLocationY) {// Aslında stroneLocationX y ve
+                                                                             // stoneLocationY de x
+        String[] Moves = new String[4];
+        // order will be up,down,right,left
+
+        if (stoneLocationY-1>-1
+                &&" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) {
+            Moves[0] = "Sliding_up";
+        } else if (stoneLocationY-2>-1
+                && (!" -".equals(boardState[stoneLocationX][stoneLocationY - 1]))
+                && boardState[stoneLocationX][stoneLocationY - 2] == " -") {
+            Moves[0] = "Jumping_up";
+        } else {
+            Moves[0] = null;
+        }
+
+        if (stoneLocationY+1<boardSize-1
+                && " -".equals(boardState[stoneLocationX][stoneLocationY + 1])) {
+            Moves[1] = "Sliding_down";
+        } else if (stoneLocationY+2<boardSize-1
+                && (!" -".equals(boardState[stoneLocationX][stoneLocationY + 1]))
+                && boardState[stoneLocationX][stoneLocationY + 2] == " -") {
+            Moves[1] = "Jumping_down";
+        } else {
+            Moves[1] = null;
+        }
+
+        if (stoneLocationX+1<boardSize-1
+                && " -".equals(boardState[stoneLocationX + 1][stoneLocationY])) {
+            Moves[2] = "Sliding_right";
+        } else if (stoneLocationX+2<boardSize-1
+                && (!" -".equals(boardState[stoneLocationX + 1][stoneLocationY]))
+                && boardState[stoneLocationX + 2][stoneLocationY] == " -") {
+            Moves[2] = "Jumping_right";
+        } else {
+            Moves[2] = null;
+        }
+
+        if (stoneLocationX-1>-1
+                && " -".equals(boardState[stoneLocationX - 1][stoneLocationY])) {
+            Moves[3] = "Sliding_left";
+        } else if (stoneLocationX-2>-1
+                && (!" -".equals(boardState[stoneLocationX - 1][stoneLocationY]))
+                && boardState[stoneLocationX - 2][stoneLocationY] == " -") {
+            Moves[3] = "Jumping_left";
+        } else {
+            Moves[3] = null;
+        }
+        System.out.println("Available moves for stone at " + stoneLocationX + " " + stoneLocationY + " are:\n");
+        for (String string : Moves) {
+            if(string!=null)
+            System.out.println(string);
+        }
+        System.out.println("\n");
+        return Moves;
+    }
+
 }
