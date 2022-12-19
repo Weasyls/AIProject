@@ -4,7 +4,6 @@
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,6 +16,7 @@ public class State {
     enum Player {
         Red, Blue
     }
+    
     String[][] boardState; //GEÇİCİ OLARAK PRİVATE KALDIRDIM MAİNDE MOVE KULLANMADNA DEĞİŞTİRİP DEBUG İÇİN
     String winner = "N";
     Player turn = Player.Blue;
@@ -43,34 +43,33 @@ public class State {
         createStones(boardSize);
 
     }
-    
-    public boolean checkDirectionInput(String direction){
-        if(!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction))){
+
+    public boolean checkDirectionInput(String direction) {
+        if (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction))) {
             System.out.println("Wrong input");
             return true;
         }
-        
+
         return false;
     }
-    
-    public boolean checkStoneInput(int x, int y){
-        if(turn == Player.Blue){
+
+    public boolean checkStoneInput(int x, int y) {
+        if (turn == Player.Blue) {
             if ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" B")) {
                 System.out.println("Wrong input");
                 return true;
             }
-            
+
             return false;
-        }
-        else{
+        } else {
             if ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" R")) {
                 System.out.println("Wrong input");
                 return true;
-            } 
-            
+            }
+
             return false;
         }
-        
+
     }
 
     public void createStones(int size) {
@@ -341,24 +340,24 @@ public class State {
             if (dash.contains(direction)) {
                 if ("up".equals(direction) && check) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 1);
-                    ret =  0;
+                    ret = 0;
                 } else if ("left".equals(direction) && check) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX - 1, stoneLocationY);
-                    ret= 0;
+                    ret = 0;
                 } else if ("right".equals(direction)) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX + 1, stoneLocationY);
-                    ret= 0;
+                    ret = 0;
                 } else if ("down".equals(direction)) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 1);
-                    ret= 0;
+                    ret = 0;
                 } else if ("quit".equals(direction)) {
-                    ret= 0;
+                    ret = 0;
                 }
 
             } else if (jump.contains(direction)) {
                 if ("up".equals(direction) && check) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 2);
-                    return new int[]{1, stoneLocationX, stoneLocationY-2};
+                    return new int[]{1, stoneLocationX, stoneLocationY - 2};
                 } else if ("left".equals(direction) && check) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX - 2, stoneLocationY);
                     return new int[]{1, stoneLocationX - 2, stoneLocationY};
@@ -367,11 +366,10 @@ public class State {
                     return new int[]{1, stoneLocationX + 2, stoneLocationY};
                 } else if ("down".equals(direction)) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 2);
-                    return new int[]{1, stoneLocationX, stoneLocationY+2};
+                    return new int[]{1, stoneLocationX, stoneLocationY + 2};
                 }
 
-            }
-            else{
+            } else {
                 System.out.println("Invalid move");
                 ret = -1;
             }
@@ -379,36 +377,35 @@ public class State {
             if (dash.contains(direction)) {
                 if ("up".equals(direction)) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 1);
-                    ret= 0;
+                    ret = 0;
                 } else if ("left".equals(direction)) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX - 1, stoneLocationY);
-                    ret= 0;
+                    ret = 0;
                 } else if ("right".equals(direction) && check) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX + 1, stoneLocationY);
-                    ret= 0;
-                } else if ("down".equals(direction)&& check) {
+                    ret = 0;
+                } else if ("down".equals(direction) && check) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 1);
-                    ret= 0;
+                    ret = 0;
                 } else if ("quit".equals(direction)) {
-                    ret= 0;
+                    ret = 0;
                 }
 
             } else if (jump.contains(direction)) {
                 if ("up".equals(direction)) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY - 2);
-                    return new int[]{1, stoneLocationX, stoneLocationY-2};
+                    return new int[]{1, stoneLocationX, stoneLocationY - 2};
                 } else if ("left".equals(direction)) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX - 2, stoneLocationY);
                     return new int[]{1, stoneLocationX - 2, stoneLocationY};
-                } else if ("right".equals(direction)  && check) {
+                } else if ("right".equals(direction) && check) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX + 2, stoneLocationY);
                     return new int[]{1, stoneLocationX + 2, stoneLocationY};
                 } else if ("down".equals(direction) && check) {
                     swap(stoneLocationX, stoneLocationY, stoneLocationX, stoneLocationY + 2);
-                    return new int[]{1, stoneLocationX, stoneLocationY+2};
+                    return new int[]{1, stoneLocationX, stoneLocationY + 2};
                 }
-            }
-            else{
+            } else {
                 System.out.println("Invalid move");
                 ret = -1;
             }
@@ -433,13 +430,12 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
-                availableMoves(0,x,y);
+                availableMoves(0, x, y);
                 System.out.print("Direction: ");//while 
                 direction = sc.next();
             } while (checkStoneInput(x, y) || checkDirectionInput(direction));
 
             int[] check = move(direction, x, y);
-            System.out.println(Arrays.toString(check));
             printBoard();
             //1 zıplayarak olan 0 kayan -1 unable to move
 
@@ -448,20 +444,19 @@ public class State {
                     x = check[1];
                     y = check[2];
                     direction = "emre";
-                    printBoard();
                     do {
                         if ("true".equals(canJump(x, y).get(0))) {
-                            availableMoves(check[0], x,y);
+                            availableMoves(check[0], x, y);
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
-                        }
-                        else{
+                        } else {
                             turn = Player.Red;
                             return;
                         }
-                    } while (checkStoneInput(x,y) || checkDirectionInput(direction) || !canJump(x, y).contains(direction));
+                    } while (checkStoneInput(x, y) || checkDirectionInput(direction) || !canJump(x, y).contains(direction));
 
                     check = move(direction, x, y);
+                    printBoard();
 
                 }
                 turn = Player.Red;
@@ -479,10 +474,10 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
-                availableMoves(0, x,y);
+                availableMoves(0, x, y);
                 System.out.print("Direction: ");
                 direction = sc.next();
-            } while (checkStoneInput(x,y) || checkDirectionInput(direction));
+            } while (checkStoneInput(x, y) || checkDirectionInput(direction));
 
             int[] check = move(direction, x, y);
             printBoard();
@@ -493,21 +488,19 @@ public class State {
                     x = check[1];
                     y = check[2];
                     direction = "emre";
-                    printBoard();
                     do {
                         if ("true".equals(canJump(x, y).get(0))) {
-                            availableMoves(check[0], x,y);
+                            availableMoves(check[0], x, y);
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
-                        }
-                        else{
+                        } else {
                             turn = Player.Red;
                             return;
                         }
-                    } while (checkStoneInput(x,y) || checkDirectionInput(direction) || !canJump(x, y).contains(direction));
+                    } while (checkStoneInput(x, y) || checkDirectionInput(direction) || !canJump(x, y).contains(direction));
 
                     check = move(direction, x, y);
-
+                    printBoard();
                 }
                 turn = Player.Blue;
 
@@ -628,50 +621,48 @@ public class State {
             }
         }
     }
-    
+
     public void availableMoves(int check, int stoneLocationX, int stoneLocationY) {// Aslında stroneLocationX y ve
         // stoneLocationY de x
-        
+
         String moves = "";
 
         // order will be up,down,right,left
         List<String> jump = canJump(stoneLocationX, stoneLocationY);
         List<String> dash = canDash(stoneLocationX, stoneLocationY);
-        if(check == 0){
-           if(jump.contains("up")){
+        if (check == 0) {
+            if (jump.contains("up")) {
                 moves += "Jump Up, ";
+            } else if (dash.contains("up")) {
+                moves += "Dash Up, ";
             }
-            else if(dash.contains("up")){
-                moves += "Dash Up, "; 
-            }
-            if(jump.contains("down")){
+            if (jump.contains("down")) {
                 moves += "Jump Down, ";
+            } else if (dash.contains("down")) {
+                moves += "Dash Down, ";
             }
-            else if(dash.contains("down")){
-                moves += "Dash Down, "; 
-            }
-            
-            if(jump.contains("right")){
+
+            if (jump.contains("right")) {
                 moves += "Jump Right, ";
+            } else if (dash.contains("right")) {
+                moves += "Dash Right, ";
             }
-            else if(dash.contains("right")){
-                moves += "Dash Right, "; 
-            }
-            if(jump.contains("left")){
+            if (jump.contains("left")) {
                 moves += "Jump Left, ";
+            } else if (dash.contains("left")) {
+                moves += "Dash Left, ";
             }
-            else if(dash.contains("left")){
-                moves += "Dash Left, "; 
-            } 
-        }
-        else if(check == 1){
-            if(jump.contains("up")){
+        } else if (check == 1) {
+            if (jump.contains("up")) {
                 moves += "Jump Up, ";
-            }if(jump.contains("down")){
+            }
+            if (jump.contains("down")) {
                 moves += "Jump Down, ";
-            }if(jump.contains("right")){
+            }
+            if (jump.contains("right")) {
                 moves += "Jump Right, ";
-            }if(jump.contains("left")){
+            }
+            if (jump.contains("left")) {
                 moves += "Jump Left, ";
             }
         }
