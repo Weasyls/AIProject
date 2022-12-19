@@ -139,12 +139,14 @@ public class State {
                 }
             }
         }
-        // BURA DAHA TEMİZ YAZILABİLİR AMA KAFAM ÇALIŞMADIĞI İÇİN BÖYLE YAPTIM
+        
         if (redWin == "R") {
             winner = "R";
+            System.out.println("RED WINS");
         }
         if (blueWin == "B") {
             winner = "B";
+            System.out.println("BLUE WINS");
         }
         return winner;
     }
@@ -155,10 +157,10 @@ public class State {
         boardState[i][j] = temp;                  //3
     }
 
-    public int[] move(String direction, int stoneLocationX, int stoneLocationY) {//Aslında stroneLocationX y ve stoneLocationY de x
-        List<String> list = canJump(stoneLocationX, stoneLocationY);
+    public int[] move(String direction, int stoneLocationX, int stoneLocationY, Player p) {//Aslında stroneLocationX y ve stoneLocationY de x
+        List<String> list = canJump(stoneLocationX, stoneLocationY, p);
         boolean check = isInWinZone(stoneLocationX, stoneLocationY);
-        if (turn == Player.Red) {
+        if (p == Player.Red) {
             switch (direction.toLowerCase()) {
                 case "up" -> {
                     if (" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) {
@@ -278,7 +280,7 @@ public class State {
                     return new int[]{0};
                 }
                 default -> {
-                    if (canJump(stoneLocationX, stoneLocationY).get(0) == "true") {
+                    if (canJump(stoneLocationX, stoneLocationY, p).get(0) == "true") {
                         return new int[]{1, stoneLocationX, stoneLocationY};
                     }
                     System.out.println("Invalid move.");
@@ -287,12 +289,12 @@ public class State {
             }
 
         }
-        
+
     }
 
-    private List<String> canJump(int stoneLocationX, int stoneLocationY) {
+    private List<String> canJump(int stoneLocationX, int stoneLocationY, Player p) {
         String[] returnArr = {"false", "false", "false", "false", "false", "quit"};//canJump up down left right
-        if (turn == Player.Red) {
+        if (p == Player.Red) {
             try {
                 if ((!" -".equals(boardState[stoneLocationX][stoneLocationY - 1])) && boardState[stoneLocationX][stoneLocationY - 2] == " -") {//up
                     returnArr[1] = "up";
@@ -383,7 +385,7 @@ public class State {
                 direction = sc.next();
             } while ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" B") || (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction))));
 
-            int[] check = move(direction, x, y);
+            int[] check = move(direction, x, y, turn);
             printBoard();
             //1 zıplayarak olan 0 kayan -1 unable to move
 
@@ -392,20 +394,19 @@ public class State {
                     direction = "emre";
                     x = check[1];
                     y = check[2];
-                    printBoard();
                     do {
-                        if ("true".equals(canJump(x, y).get(0))) {
+                        if ("true".equals(canJump(x, y, turn).get(0))) {
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
                         }
-                        if (!("true".equals(canJump(x, y).get(0)))) {
+                        if (!("true".equals(canJump(x, y, turn).get(0)))) {
                             turn = Player.Red;
                             return;
                         }
-                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y).contains(direction));
+                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
 
-                    check = move(direction, x, y);
-
+                    check = move(direction, x, y, turn);
+                    printBoard();
                 }
                 turn = Player.Red;
 
@@ -426,29 +427,28 @@ public class State {
                 direction = sc.next();
             } while ((y < 0 || y >= boardSize || x < 0 || x >= boardSize) || !boardState[x][y].equals(" R") || (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction))));
 
-            int[] check = move(direction, x, y);
+            int[] check = move(direction, x, y, turn);
             printBoard();
             //1 zıplayarak olan 0 kayan -1 unable to move
 
             if (check[0] == 1) {
                 while (check[0] == 1) {
-                    direction = "emre";
+                    direction = "emran";
                     x = check[1];
                     y = check[2];
-                    printBoard();
                     do {
-                        if ("true".equals(canJump(x, y).get(0))) {
+                        if ("true".equals(canJump(x, y, turn).get(0))) {
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
                         }
-                        if (!("true".equals(canJump(x, y).get(0)))) {
+                        if (!("true".equals(canJump(x, y, turn).get(0)))) {
                             turn = Player.Blue;
                             return;
                         }
-                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y).contains(direction));
+                    } while (!("up".equals(direction) || "down".equals(direction) || "left".equals(direction) || "right".equals(direction) || "quit".equals(direction)) || !canJump(x, y, turn).contains(direction));
 
-                    check = move(direction, x, y);
-
+                    check = move(direction, x, y, turn);
+                    printBoard();
                 }
                 turn = Player.Blue;
 
@@ -476,7 +476,7 @@ public class State {
         } else { // FOR ODD BOARDSIZE
             int stoneCount = (boardSize - 1) / 2;
             int s2 = stoneCount - 1;
-            if (Player.Red == turn) {// AMELELİK VAR BURDA YANLIŞ ALT TARAF
+            if (Player.Red == turn) {
                 for (int i = 0; i <= stoneCount; i++, s2--) {
                     for (int j = 0; j <= s2; j++) {
                         //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
@@ -485,7 +485,7 @@ public class State {
                         }
                     }
                 }
-            }// AMELELİK VAR BURDA YANLIŞ ALT TARAF
+            }
             if (Player.Blue == turn) {
                 stoneCount = (boardSize - 1) / 2;
                 s2 = stoneCount;
