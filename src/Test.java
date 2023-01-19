@@ -7,10 +7,11 @@ import java.util.Scanner;
 public class Test {
 
     public static void main(String[] args) {
-        System.out.print("Enter Board Size: ");
-        State board = new State(new Scanner(System.in).nextInt());
+        //System.out.print("Enter Board Size: ");
+        //State board = new State(new Scanner(System.in).nextInt());
+        State board = new State(8);
         board.printBoard();
-        board.super_secret_test_case2();
+        board.utilityTest();
         board.printBoard();
         do {
             board.play();

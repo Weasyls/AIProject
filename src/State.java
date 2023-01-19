@@ -16,7 +16,7 @@ public class State {
     enum Player {
         Red, Blue
     }
-    
+
     String[][] boardState; //GEÇİCİ OLARAK PRİVATE KALDIRDIM MAİNDE MOVE KULLANMADNA DEĞİŞTİRİP DEBUG İÇİN
     String winner = "N";
     Player turn = Player.Blue;
@@ -430,6 +430,8 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
+                int utility = getUtility(x, y);
+                System.out.println(utility);
                 availableMoves(0, x, y);
                 System.out.print("Direction: ");//while 
                 direction = sc.next();
@@ -474,6 +476,8 @@ public class State {
                 x = sc.nextInt();
                 System.out.print("y: ");
                 y = sc.nextInt();
+                int utility = getUtility(x, y);
+                System.out.println(utility);
                 availableMoves(0, x, y);
                 System.out.print("Direction: ");
                 direction = sc.next();
@@ -494,7 +498,7 @@ public class State {
                             System.out.print("Direction: (Input quit to quit): ");//while 
                             direction = sc.next();
                         } else {
-                            turn = Player.Red;
+                            turn = Player.Blue;
                             return;
                         }
                     } while (checkStoneInput(x, y) || checkDirectionInput(direction) || !canJump(x, y).contains(direction));
@@ -528,7 +532,7 @@ public class State {
         } else { // FOR ODD BOARDSIZE
             int stoneCount = (boardSize - 1) / 2;
             int s2 = stoneCount - 1;
-            if (Player.Red == turn) {// AMELELİK VAR BURDA YANLIŞ ALT TARAF
+            if (Player.Red == turn) {
                 for (int i = 0; i <= stoneCount; i++, s2--) {
                     for (int j = 0; j <= s2; j++) {
                         //HEPSİ REDE EŞİTSE İFE GİRMEZ REDWİN TRUE OLARAK KALIR
@@ -537,7 +541,7 @@ public class State {
                         }
                     }
                 }
-            }// AMELELİK VAR BURDA YANLIŞ ALT TARAF
+            }
             if (Player.Blue == turn) {
                 stoneCount = (boardSize - 1) / 2;
                 s2 = stoneCount;
@@ -669,4 +673,64 @@ public class State {
         System.out.println("Available moves:");
         System.out.println(moves);
     }
+
+    public int getUtility(int posX, int posY) {
+        int utilX, utilY = 0;
+        int[] utils = chooseUtilPoint();
+        utilX = utils[0];
+        utilY = utils[1];
+
+        int distX = Math.abs(posX - utilX);
+        int distY = Math.abs(posY - utilY);
+
+        return distX + distY;
+
+    }
+
+    public int[] chooseUtilPoint() { //mesafesi ölçülen noktayı seçiyor
+        int stoneCount = (boardSize / 2) - 1;
+        //BoardSize EVEN
+        if (turn == Player.Blue) {//                                BLUE STONE
+            for (int i = boardSize - 1; i > boardSize - stoneCount - 1; i--) {
+                for (int j = boardSize - 1; j > boardSize - stoneCount - 1; j--) {
+                    if (boardState[i][j] == " -") {
+                        int[] arr = {i, j};
+                        return arr;
+                    }
+                }
+            }
+        } else {//                                                     RED STONE
+            for (int i = 0; i < stoneCount - 1; i++) {
+                for (int j = 0; j < stoneCount - 1; j++) {
+                    if (boardState[i][j] == " -") {
+                        int[] arr = {i, j};
+                        return arr;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void utilityTest() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                boardState[i][j] = " -";
+            }
+        }
+        for (int i = 3; i < 8; i += 2) {
+            for (int j = 3; j < 8; j += 2) {
+                boardState[i % 8][j % 8] = " B";
+            }
+        }
+        // X  Y
+        boardState[5][5] = " -";
+        boardState[5][4] = " B";
+        boardState[4][4] = " B";
+        for (int i = 1; i < 4; i++) {
+            for (int j = 1; j < 4; j++) {
+                boardState[i][j] = " R";
+            }
+        }
+    }// boardı utility testi için diziyor
 }
