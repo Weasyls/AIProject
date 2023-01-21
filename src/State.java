@@ -75,7 +75,7 @@ public class State {
     public void createStones(int size) {
 
         if (size % 2 == 0) {
-            int stoneCount = (size / 2) - 1;//8-3 6-2 4-1  (N+1)*2 = boardSize
+            int stoneCount = (size / 2) - 1;  //8-3 6-2 4-1  (N+1)*2 = boardSize
 
             for (int i = 0; i < stoneCount; i++) {
                 for (int j = 0; j < stoneCount; j++) {
@@ -426,16 +426,19 @@ public class State {
             System.out.println(turn + "'s turn.");
 
             do {
-                System.out.print("x: ");
-                x = sc.nextInt();
-                System.out.print("y: ");
-                y = sc.nextInt();
+
+                do{
+                    System.out.print("x: ");
+                    x = sc.nextInt();
+                    System.out.print("y: ");
+                    y = sc.nextInt();
+                }while(checkStoneInput(x, y));
                 int utility = getUtility(x, y);
                 System.out.println(utility);
                 availableMoves(0, x, y);
                 System.out.print("Direction: ");//while 
                 direction = sc.next();
-            } while (checkStoneInput(x, y) || checkDirectionInput(direction));
+            } while (checkDirectionInput(direction));
 
             int[] check = move(direction, x, y);
             printBoard();
