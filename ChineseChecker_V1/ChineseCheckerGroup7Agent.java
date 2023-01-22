@@ -1,19 +1,54 @@
 public class ChineseCheckerGroup7Agent implements BoardGameAgent {
+	final int maximumExpansionCount;
+
+	ChineseCheckerGroup7Agent(int maximumExpansionCount) {
+		this.maximumExpansionCount = maximumExpansionCount;
+	}
+
 	@Override
-	public int estimateDepth(BoardState boardState, Player player)  {
-		return 1;
+	public int estimateDepth(BoardState boardState, Player player) {
+		//counting unallocated pin number
+		ChineseCheckerState chineseCheckerState = (ChineseCheckerState) boardState;
+		int boardSize = chineseCheckerState.boardSize;
+
+		int PlayerOneFinishLength = 0;
+		int PlayerTwoFinishLength = 0;
+		for (int y = 0; y < boardSize; y++) {
+			for (int x = 0; x < boardSize; x++) {
+				if (chineseCheckerState.get(x, y) == Player.One) {
+					PlayerOneFinishLength += Math.abs(y - (boardSize - 1));
+					PlayerOneFinishLength += Math.abs(x - (boardSize - 1));
+				}else{
+					PlayerTwoFinishLength += Math.abs(y - 0);
+					PlayerTwoFinishLength += Math.abs(x - 0);
+				}
+			}
+		}
+		//by finding the average of the distances of the stones to the finish line, we can estimate the depth
+		return (PlayerOneFinishLength + PlayerTwoFinishLength);
 	}
 
 	@Override
 	public long estimateExpansionCount(BoardState boardState, int m, Player player) {
-		return 1;
+		ChineseCheckerState chineseCheckerState = (ChineseCheckerState) boardState;
+		int boardSize = chineseCheckerState.boardSize;
+		int legalMoves = 0;
+		for (int y = 0; y < boardSize; y++) {
+			for (int x = 0; x < boardSize; x++) {
+				if (chineseCheckerState.get(x, y) == player) {
+					legalMoves += chineseCheckerState.getMovements(chineseCheckerState, player, x, y).size();
+				}
+			}
+		}
+		//by finding the average of the distances of the stones to the finish line, we can estimate the depth
+		return Math.max((long) Math.pow(legalMoves, m), maximumExpansionCount);
 	}
 
 	@Override
 	public double getUtility(BoardState board, Player player) {
 		// utility 1
-		//System.out.println(board);
-		int[] arr = chooseUtilPoint(board,player);
+		// System.out.println(board);
+		int[] arr = chooseUtilPoint(board, player);
 		ChineseCheckerState chineseCheckerState = (ChineseCheckerState) board;
 		int boardSize = chineseCheckerState.boardSize;
 
@@ -39,11 +74,13 @@ public class ChineseCheckerGroup7Agent implements BoardGameAgent {
 
 		for (int y = 0; y < boardSize; y++) {
 			for (int x = 0; x < boardSize; x++) {
-				if (chineseCheckerState.get(x, y) == player && chineseCheckerState.initialBoardCells[y][x] == opponent) {
+				if (chineseCheckerState.get(x, y) == player
+						&& chineseCheckerState.initialBoardCells[y][x] == opponent) {
 					playerSCount++;
 				}
 
-				if (chineseCheckerState.initialBoardCells[y][x] == player && chineseCheckerState.get(x, y) == opponent) {
+				if (chineseCheckerState.initialBoardCells[y][x] == player
+						&& chineseCheckerState.get(x, y) == opponent) {
 					enemyScount++;
 				}
 			}
@@ -57,9 +94,8 @@ public class ChineseCheckerGroup7Agent implements BoardGameAgent {
 		return combinedUtility;
 	}
 
-
-	public int[] chooseUtilPoint(BoardState board,Player player) { //mesafesi ölçülen noktayı seçiyor
-		int[] arr=new int[2];
+	public int[] chooseUtilPoint(BoardState board, Player player) { // mesafesi ölçülen noktayı seçiyor
+		int[] arr = new int[2];
 		ChineseCheckerState chineseCheckerState = (ChineseCheckerState) board;
 		int boardSize = chineseCheckerState.boardSize;
 		// mesafesi ölçülen noktayı seçiyor
@@ -86,16 +122,15 @@ public class ChineseCheckerGroup7Agent implements BoardGameAgent {
 				}
 			}
 		}
-		if(player==Player.One) {
-			arr[0]=boardSize-1;
-			arr[1]=boardSize-1;
+		if (player == Player.One) {
+			arr[0] = boardSize - 1;
+			arr[1] = boardSize - 1;
+		} else {
+			arr[0] = 0;
+			arr[1] = 0;
 		}
-		else {
-			arr[0]=0;
-			arr[1]=0;
-		}
-        return arr;
-    }
+		return arr;
+	}
 
 	@Override
 	public String toString() {
