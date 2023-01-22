@@ -7,7 +7,8 @@ public class ChineseCheckerTest {
 			
 		AdversarialSearch greedySearch = new AdversarialGreedySearch();
 		
-		BoardGameAgent agent1 = new ChineseCheckerIdiotAgent();
+		//BoardGameAgent agent1 = new ChineseCheckerIdiotAgent();
+		BoardGameAgent agent1 = new ChineseCheckerGroup7Agent();
 		//BoardGameAgent agent1 = new ChineseCheckerImbecileAgent();
 		//BoardGameAgent agent1 = new ChineseCheckerMoronAgent();
 		
@@ -16,7 +17,7 @@ public class ChineseCheckerTest {
 		BoardGameAgent agent2 = new ChineseCheckerMoronAgent();
 		
 		if (agent1 instanceof ChineseCheckerIdiotAgent && agent2 instanceof ChineseCheckerIdiotAgent) {
-			System.err.println("Watching two idiots playing a game is silly!");
+			System.err.println("Watching two idiots playing a game is silly!");  // :D
 			return;
 		}
 		

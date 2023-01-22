@@ -2,15 +2,22 @@
 // I.Q. scores for moron: 50-70/75
 
 public class ChineseCheckerMoronAgent implements BoardGameAgent {
+	
+	final int maximumExpansionCount;
+	
+	ChineseCheckerMoronAgent(int maximumExpansionCount) 
+	{
+		this.maximumExpansionCount = maximumExpansionCount;
+	}
 
 	@Override
-	public int estimatedDepth(BoardState boardState) 
+	public int estimateDepth(BoardState boardState, Player player) 
 	{
 		return 1;
 	}
 	
 	@Override
-	public long estimatedExpansionCount(BoardState boardState, int m)
+	public long estimateExpansionCount(BoardState boardState, int m, Player player)
 	{
 		return 1;
 	}

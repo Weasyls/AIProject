@@ -6,13 +6,13 @@ public class ChineseCheckerIdiotAgent implements BoardGameAgent {
 	private static Random rand = new Random(System.currentTimeMillis());
 
 	@Override
-	public int estimatedDepth(BoardState boardState) 
+	public int estimateDepth(BoardState boardState, Player player) 
 	{
 		return 1;
 	}
 	
 	@Override
-	public long estimatedExpansionCount(BoardState boardState, int m)
+	public long estimateExpansionCount(BoardState boardState, int m, Player player)
 	{
 		return 1;
 	}

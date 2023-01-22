@@ -3,14 +3,21 @@
 
 public class ChineseCheckerImbecileAgent implements BoardGameAgent {
 
+	final int maximumExpansionCount;
+	
+	ChineseCheckerImbecileAgent(int maximumExpansionCount) 
+	{
+		this.maximumExpansionCount = maximumExpansionCount;
+	}
+	
 	@Override
-	public int estimatedDepth(BoardState boardState) 
+	public int estimateDepth(BoardState boardState, Player player) 
 	{
 		return 1;
 	}
 	
 	@Override
-	public long estimatedExpansionCount(BoardState boardState, int m)
+	public long estimateExpansionCount(BoardState boardState, int m, Player player)
 	{
 		return 1;
 	}

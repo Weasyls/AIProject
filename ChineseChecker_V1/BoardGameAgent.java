@@ -3,9 +3,9 @@
 
 interface BoardGameAgent {
 
-	abstract public int estimatedDepth(BoardState boardState);
+	abstract public int estimateDepth(BoardState boardState, Player player);
 	
-	abstract public long estimatedExpansionCount(BoardState boardState, int m);
+	abstract public long estimateExpansionCount(BoardState boardState, int m, Player player);
 	
 	abstract public double getUtility(BoardState boardState, Player player);
 	
