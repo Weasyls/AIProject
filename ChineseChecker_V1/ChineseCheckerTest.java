@@ -8,14 +8,13 @@ public class ChineseCheckerTest {
 		final int maximumExpansionCount = 100000;
 		AdversarialSearch greedySearch = new AdversarialGreedySearch();
 
-		// BoardGameAgent agent1 = new ChineseCheckerIdiotAgent();
+		//BoardGameAgent agent1 = new ChineseCheckerIdiotAgent();
 		BoardGameAgent agent1 = new ChineseCheckerGroup7Agent(maximumExpansionCount);
 		//BoardGameAgent agent1 = new ChineseCheckerImbecileAgent(maximumExpansionCount);
 		// BoardGameAgent agent1 = new ChineseCheckerMoronAgent(maximumExpansionCount);
 
 		// BoardGameAgent agent2 = new ChineseCheckerIdiotAgent();
-		// BoardGameAgent agent2 = new
-		// ChineseCheckerImbecileAgent(maximumExpansionCount);
+		//BoardGameAgent agent2 = new ChineseCheckerImbecileAgent(maximumExpansionCount);
 		BoardGameAgent agent2 = new ChineseCheckerMoronAgent(maximumExpansionCount);
 
 		if (agent1 instanceof ChineseCheckerIdiotAgent && agent2 instanceof ChineseCheckerIdiotAgent) {

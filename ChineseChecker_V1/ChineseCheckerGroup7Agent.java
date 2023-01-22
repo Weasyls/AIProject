@@ -41,7 +41,7 @@ public class ChineseCheckerGroup7Agent implements BoardGameAgent {
 			}
 		}
 		//by finding the average of the distances of the stones to the finish line, we can estimate the depth
-		return Math.max((long) Math.pow(legalMoves, m), maximumExpansionCount);
+		return Math.min((long) Math.pow(legalMoves, m), maximumExpansionCount);
 	}
 
 	@Override
@@ -134,6 +134,6 @@ public class ChineseCheckerGroup7Agent implements BoardGameAgent {
 
 	@Override
 	public String toString() {
-		return "Group7 Agent   200 < IQ";
+		return "Group7 Agent   It's OVER 9000!";
 	}
 }
